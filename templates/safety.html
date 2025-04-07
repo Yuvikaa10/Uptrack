@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safety Features</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 60%;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .safety-option {
+            background: #ffeb3b;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            transition: transform 0.3s;
+        }
+        .safety-option:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Safety Features</h2>
+        <p>Enable key safety measures for your child.</p>
+        <div id="safetyList">
+            <div class="safety-option">🔔 Emergency Contact Setup</div>
+            <div class="safety-option">📍 Live Location Tracking</div>
+            <div class="safety-option">🚨 SOS Alert Feature</div>
+        </div>
+        <button onclick="addSafetyFeature()">Add New Feature</button>
+    </div>
+    <script>
+        function addSafetyFeature() {
+            let safetyList = document.getElementById("safetyList");
+            let newFeature = document.createElement("div");
+            newFeature.classList.add("safety-option");
+            newFeature.innerText = prompt("Enter new safety feature:");
+            if (newFeature.innerText) {
+                safetyList.appendChild(newFeature);
+            }
+        }
+    </script>
+</body>
+</html>

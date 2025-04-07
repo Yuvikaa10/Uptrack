@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .section {
+            margin: 20px 0;
+            padding: 15px;
+            background: #e3f2fd;
+            border-radius: 5px;
+            transition: transform 0.3s;
+        }
+        .section:hover {
+            transform: scale(1.05);
+        }
+        .testimonial {
+            background: #ffecb3;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>About Us</h2>
+        <div class="section">
+            <h3>Our Mission & Vision</h3>
+            <p>We aim to provide the best child growth and safety tracking platform that ensures parents have access to vital development insights, health monitoring, and safety alerts.</p>
+        </div>
+        <div class="section">
+            <h3>User Testimonials</h3>
+            <div class="testimonial">"This app has made parenting so much easier! Highly recommend it!" - Sarah J.</div>
+            <div class="testimonial">"A must-have tool for every parent! The features are so helpful!" - David L.</div>
+            <div class="testimonial">"Love the UI and ease of use. Keeps me updated on my child's growth!" - Emily R.</div>
+        </div>
+    </div>
+</body>
+</html>

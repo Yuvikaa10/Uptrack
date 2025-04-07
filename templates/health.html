@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Tracking</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 60%;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        input, select {
+            width: 80%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: #e0f7fa;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            transition: transform 0.3s;
+        }
+        li:hover {
+            transform: scale(1.05);
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            margin-top: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Health Tracking</h2>
+        <table>
+            <tr>
+                <th>Parameter</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>Height</td>
+                <td><input type="text" id="height" placeholder="Enter height"></td>
+            </tr>
+            <tr>
+                <td>Weight</td>
+                <td><input type="text" id="weight" placeholder="Enter weight"></td>
+            </tr>
+            <tr>
+                <td>Vaccinations</td>
+                <td>
+                    <select id="vaccinationStatus">
+                        <option value="Pending">Pending</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Scheduled">Scheduled</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <h3>Suggested Meal Plan</h3>
+        <label for="mealType">Select Meal Preference:</label>
+        <select id="mealType">
+            <option value="default">Balanced</option>
+            <option value="veg">Vegetarian</option>
+            <option value="glutenFree">Gluten-Free</option>
+        </select>
+        <ul id="mealPlan">
+            <li>Breakfast: Oatmeal with fruits</li>
+            <li>Lunch: Grilled chicken with rice</li>
+            <li>Dinner: Vegetable soup with whole wheat bread</li>
+        </ul>
+        <button onclick="updateMealPlan()">Generate Meal Plan</button>
+    </div>
+    <script>
+        function updateMealPlan() {
+            const mealType = document.getElementById("mealType").value;
+            const mealPlan = document.getElementById("mealPlan");
+
+            let meals = {
+                default: [
+                    "Breakfast: Scrambled eggs with toast",
+                    "Lunch: Quinoa salad with nuts",
+                    "Dinner: Baked fish with steamed vegetables"
+                ],
+                veg: [
+                    "Breakfast: Smoothie bowl with nuts",
+                    "Lunch: Lentil soup with brown rice",
+                    "Dinner: Stir-fried tofu with veggies"
+                ],
+                glutenFree: [
+                    "Breakfast: Omelette with avocado",
+                    "Lunch: Grilled chicken with quinoa",
+                    "Dinner: Baked salmon with steamed greens"
+                ]
+            };
+
+            mealPlan.innerHTML = meals[mealType].map(item => `<li>${item}</li>`).join('');
+        }
+    </script>
+</body>
+</html>

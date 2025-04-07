@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Child Companion</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background: linear-gradient(to right, #2575fc, #6a11cb);
+        }
+        .dashboard {
+            padding: 40px;
+        }
+        .welcome {
+            background: #2575fc;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .stats-card {
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+            text-align: center;
+        }
+        .stats-card:hover {
+            transform: translateY(-5px);
+        }
+        .features-section {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 30px;
+        }
+        .feature-card {
+            width: 30%;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+        }
+        .feature-card:hover {
+            transform: scale(1.05);
+        }
+        .chart-container {
+            margin-top: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #6a11cb;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Child Companion</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
+                    <li class="nav-item"><a class="nav-link" href="features.html">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="health.html">Health</a></li>
+                    <li class="nav-item"><a class="nav-link" href="development.html">Development</a></li>
+                    <li class="nav-item"><a class="nav-link" href="safety.html">Safety</a></li>
+                    <li class="nav-item"><a class="nav-link" href="logout.html">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Dashboard Content -->
+    <div class="dashboard container">
+        <div class="welcome">
+            <h2>Welcome, Parent!</h2>
+            <p>Monitor your child's health, growth, and safety all in one place.</p>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="stats-card">
+                    <h4>Health Status</h4>
+                    <p>Normal</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stats-card">
+                    <h4>Growth Progress</h4>
+                    <p>85% Milestones Reached</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stats-card">
+                    <h4>Safety Alerts</h4>
+                    <p>No Alerts</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chart-container">
+            <canvas id="growthChart"></canvas>
+        </div>
+        
+        <div class="features-section">
+            <div class="feature-card">
+                <h4>Health Tracking</h4>
+                <p>Monitor your child's health and medical records.</p>
+                <a href="health.html" class="btn btn-primary">View</a>
+            </div>
+            <div class="feature-card">
+                <h4>Development Tracking</h4>
+                <p>Track milestones and developmental progress.</p>
+                <a href="development.html" class="btn btn-primary">View</a>
+            </div>
+            <div class="feature-card">
+                <h4>Safety Features</h4>
+                <p>Get real-time safety alerts and tracking.</p>
+                <a href="safety.html" class="btn btn-primary">View</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        &copy; 2024 Child Companion. All Rights Reserved.
+    </footer>
+    
+    <script>
+        var ctx = document.getElementById('growthChart').getContext('2d');
+        var growthChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Growth Progress',
+                    data: [60, 65, 70, 75, 80, 85],
+                    borderColor: '#2575fc',
+                    borderWidth: 2,
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

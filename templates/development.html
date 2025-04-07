@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Development Tracking</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 60%;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .milestone {
+            background: #e3f2fd;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s;
+        }
+        .milestone:hover {
+            transform: scale(1.05);
+        }
+        .delete-btn {
+            background: red;
+            color: white;
+            border: none;
+            padding: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .delete-btn:hover {
+            background: darkred;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Development Tracking</h2>
+        <p>Track and monitor your child's milestones dynamically.</p>
+        <div id="milestones">
+            <div class="milestone">👣 First Steps Achieved <button class="delete-btn" onclick="removeMilestone(this)">❌</button></div>
+            <div class="milestone">🗣 First Words Spoken <button class="delete-btn" onclick="removeMilestone(this)">❌</button></div>
+            <div class="milestone">🎨 Creative Skills Developing <button class="delete-btn" onclick="removeMilestone(this)">❌</button></div>
+        </div>
+        <button onclick="addMilestone()">➕ Add New Milestone</button>
+    </div>
+    <script>
+        function addMilestone() {
+            let milestoneText = prompt("Enter new milestone:");
+            if (milestoneText) {
+                let milestones = document.getElementById("milestones");
+                let newMilestone = document.createElement("div");
+                newMilestone.classList.add("milestone");
+                newMilestone.innerHTML = `${milestoneText} <button class="delete-btn" onclick="removeMilestone(this)">❌</button>`;
+                milestones.appendChild(newMilestone);
+            }
+        }
+
+        function removeMilestone(button) {
+            button.parentElement.remove();
+        }
+    </script>
+</body>
+</html>

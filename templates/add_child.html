@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Child - UpTrack</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome for icons -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f0f4f8;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 60px auto;
+      background: #fff;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+    h2 {
+      text-align: center;
+      color: #2e7d32;
+      margin-bottom: 30px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    label {
+      font-weight: 600;
+      margin-bottom: 5px;
+      display: block;
+      color: #333;
+    }
+    .form-group {
+      position: relative;
+    }
+    .form-group i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #999;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px 10px 10px 35px;
+      font-size: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      transition: border-color 0.3s;
+    }
+    input:focus, textarea:focus {
+      border-color: #4CAF50;
+      outline: none;
+    }
+    .form-error {
+      color: #d32f2f;
+      font-size: 13px;
+      margin-top: 4px;
+    }
+    .submit-btn {
+      padding: 12px;
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .submit-btn:hover {
+      background-color: #43a047;
+    }
+    .back-link {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .back-link a {
+      color: #4CAF50;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .back-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2><i class="fas fa-child"></i> Add Child Details</h2>
+  <form method="POST">
+    {{ form.hidden_tag() }}
+
+    <div class="form-group">
+      <label for="name">Name</label>
+      <i class="fas fa-user"></i>
+      {{ form.name(placeholder="Enter child's name") }}
+      {% if form.name.errors %}
+        <div class="form-error">{{ form.name.errors[0] }}</div>
+      {% endif %}
+    </div>
+
+    <div class="form-group">
+      <label for="age">Age</label>
+      <i class="fas fa-hourglass-half"></i>
+      {{ form.age(placeholder="Age in years") }}
+      {% if form.age.errors %}
+        <div class="form-error">{{ form.age.errors[0] }}</div>
+      {% endif %}
+    </div>
+
+    <div class="form-group">
+      <label for="height">Height (cm)</label>
+      <i class="fas fa-ruler-vertical"></i>
+      {{ form.height(placeholder="e.g. 110") }}
+      {% if form.height.errors %}
+        <div class="form-error">{{ form.height.errors[0] }}</div>
+      {% endif %}
+    </div>
+
+    <div class="form-group">
+      <label for="weight">Weight (kg)</label>
+      <i class="fas fa-weight"></i>
+      {{ form.weight(placeholder="e.g. 18.5") }}
+      {% if form.weight.errors %}
+        <div class="form-error">{{ form.weight.errors[0] }}</div>
+      {% endif %}
+    </div>
+
+    <div class="form-group">
+      <label for="milestone">Milestones</label>
+      <i class="fas fa-shoe-prints"></i>
+      {{ form.milestone(rows=3, placeholder="Write milestone notes...") }}
+      {% if form.milestone.errors %}
+        <div class="form-error">{{ form.milestone.errors[0] }}</div>
+      {% endif %}
+    </div>
+
+    <button type="submit" class="submit-btn">{{ form.submit.label }}</button>
+  </form>
+
+  <div class="back-link">
+    <a href="{{ url_for('dashboard') }}">← Back to Dashboard</a>
+  </div>
+</div>
+
+</body>
+</html>

@@ -5,15 +5,12 @@ from wtforms import StringField, PasswordField, SubmitField, IntegerField, Float
 from wtforms.validators import InputRequired, Length, Email, EqualTo, NumberRange
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
-
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your_secret_key_here'  # change this to something secure
+app.config['SECRET_KEY'] = 'your_secret_key_here'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///uptrack.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
-
-# ----------------- MODELS ------------------
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -29,10 +26,7 @@ class ChildData(db.Model):
     height = db.Column(db.Float)
     weight = db.Column(db.Float)
     milestone = db.Column(db.String(200))
-
     user = db.relationship('User', backref=db.backref('children', lazy=True))
-
-# ----------------- FORMS ------------------
 
 class SignupForm(FlaskForm):
     username = StringField('Username', validators=[InputRequired(), Length(min=4, max=150)])
@@ -53,8 +47,6 @@ class ChildForm(FlaskForm):
     weight = FloatField('Weight (kg)')
     milestone = StringField('Recent Milestone')
     submit = SubmitField('Add Child')
-
-# ----------------- ROUTES ------------------
 
 @app.route("/")
 def home():
@@ -97,6 +89,19 @@ def dashboard():
     if "user_id" not in session:
         return redirect(url_for("login"))
     children = ChildData.query.filter_by(user_id=session["user_id"]).all()
+    def get_height_status(age, height):
+        if age <= 1 and height >= 75: return "On Track"
+        elif age == 2 and height >= 85: return "On Track"
+        elif age == 3 and height >= 95: return "On Track"
+        return "Needs Attention"
+    def get_weight_status(age, weight):
+        if age <= 1 and weight >= 10: return "On Track"
+        elif age == 2 and weight >= 12: return "On Track"
+        elif age == 3 and weight >= 14: return "On Track"
+        return "Needs Attention"
+    for child in children:
+        child.height_status = get_height_status(child.age, child.height)
+        child.weight_status = get_weight_status(child.age, child.weight)
     return render_template("dashboard.html", children=children)
 
 @app.route("/add_child", methods=["GET", "POST"])
@@ -109,16 +114,7 @@ def add_child():
         height = request.form["height"]
         weight = request.form["weight"]
         milestone = request.form["milestone"]
-
-        new_child = ChildData(
-            name=name,
-            age=age,
-            height=height,
-            weight=weight,
-            milestone=milestone,
-            user_id=session["user_id"]
-        )
-
+        new_child = ChildData(name=name, age=age, height=height, weight=weight, milestone=milestone, user_id=session["user_id"])
         db.session.add(new_child)
         db.session.commit()
         flash("Child added successfully!", "success")
@@ -130,7 +126,6 @@ def edit_child(child_id):
     child = ChildData.query.get_or_404(child_id)
     if child.user_id != session["user_id"]:
         return "Unauthorized", 403
-
     if request.method == 'POST':
         child.name = request.form["name"]
         child.age = request.form["age"]
@@ -162,7 +157,10 @@ def health():
 
 @app.route("/profile")
 def profile():
+    if "user_id" not in session:
+        return redirect(url_for("login"))
     return render_template("profile.html")
+
 
 @app.route("/safety")
 def safety():
@@ -176,14 +174,10 @@ def features():
 def about():
     return render_template("about.html")
 
-
-
 @app.route('/home')
-def home():
-    # example data (you can fetch this from your database)
-    children = [
-        {'id': 1, 'name': 'Aryan', 'age': 3, 'height': 95, 'weight': 14.2, 'milestone': 'Started walking'},
-        {'id': 2, 'name': 'Sia', 'age': 1, 'height': 75, 'weight': 10.5, 'milestone': 'First word spoken'}
-    ]
-    return render_template('home.html', children=children)
+def home_page():
+    return render_template("home.html")
 
+
+if __name__ == "__main__":
+    app.run(debug=True)

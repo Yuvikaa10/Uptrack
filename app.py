@@ -56,12 +56,21 @@ def home():
 def signup():
     form = SignupForm()
     if form.validate_on_submit():
+        existing_user = User.query.filter_by(email=form.email.data).first()
+        if existing_user:
+            flash("Email already exists. Please login or use a different email.", "warning")
+            return redirect(url_for("signup"))
+
         hashed_password = generate_password_hash(form.password.data)
         new_user = User(username=form.username.data, email=form.email.data, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
         flash("Signup successful. Please login.", "success")
         return redirect(url_for("login"))
+
+    return render_template("signup.html", form=form)
+
+
     return render_template("signup.html", form=form)
 
 @app.route("/login", methods=["GET", "POST"])

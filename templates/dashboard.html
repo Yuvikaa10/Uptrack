@@ -108,6 +108,46 @@
     </div>
 </nav>
 
+<!-- Add Child Modal -->
+<div class="modal fade" id="addChildModal" tabindex="-1" aria-labelledby="addChildModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form action="{{ url_for('add_child') }}" method="POST">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addChildModalLabel">Add New Child</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="childName" class="form-label">Name</label>
+              <input type="text" class="form-control" name="name" id="childName" required>
+            </div>
+            <div class="mb-3">
+              <label for="childAge" class="form-label">Age</label>
+              <input type="number" class="form-control" name="age" id="childAge" required>
+            </div>
+            <div class="mb-3">
+              <label for="childHeight" class="form-label">Height (cm)</label>
+              <input type="number" step="0.1" class="form-control" name="height" id="childHeight" required>
+            </div>
+            <div class="mb-3">
+              <label for="childWeight" class="form-label">Weight (kg)</label>
+              <input type="number" step="0.1" class="form-control" name="weight" id="childWeight" required>
+            </div>
+            <div class="mb-3">
+              <label for="childMilestone" class="form-label">Milestone</label>
+              <input type="text" class="form-control" name="milestone" id="childMilestone">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Add Child</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+
 <div class="dashboard container">
     <div class="welcome">
         <h2>Welcome, Parent!</h2>

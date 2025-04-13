@@ -3,148 +3,345 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Health Tracking</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Child Health Tracker | UpTrack</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        :root {
+            --primary-blue: #2563eb;
+            --dark-blue: #1e40af;
+            --accent-orange: #f59e0b;
+            --success-green: #10b981;
+            --text-dark: #1e293b;
+            --text-light: #f8fafc;
+            --light-gray: #f1f5f9;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .container {
-            background: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-gray);
+            color: var(--text-dark);
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 60%;
-            animation: fadeIn 1s ease-in-out;
         }
+        
+        .health-container {
+            max-width: 900px;
+            margin: 30px auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            animation: fadeIn 0.6s ease-out;
+        }
+        
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
+            from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        
+        .health-header {
+            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+            color: white;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .health-header h2 {
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .health-header p {
+            opacity: 0.9;
+            margin-bottom: 0;
+        }
+        
+        .health-content {
+            padding: 30px;
+        }
+        
+        /* Growth Tracking Section */
+        .growth-section {
+            margin-bottom: 40px;
+        }
+        
+        .growth-form {
+            background: var(--light-gray);
+            border-radius: 10px;
+            padding: 20px;
             margin-top: 20px;
         }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: center;
+        
+        .form-label {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 8px;
         }
-        th {
-            background-color: #4CAF50;
-            color: white;
+        
+        .form-control {
+            height: 45px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            padding-left: 15px;
+            margin-bottom: 15px;
         }
-        input, select {
-            width: 80%;
-            padding: 8px;
-            margin-top: 5px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            text-align: center;
+        
+        .form-control:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 0.25rem rgba(37, 99, 235, 0.15);
         }
-        ul {
-            list-style-type: none;
-            padding: 0;
+        
+        /* Vaccination Section */
+        .vaccination-section {
+            margin-bottom: 40px;
         }
-        li {
-            background: #e0f7fa;
-            padding: 10px;
-            margin: 5px 0;
-            border-radius: 5px;
-            transition: transform 0.3s;
+        
+        .vaccination-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 4px solid var(--primary-blue);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
         }
-        li:hover {
-            transform: scale(1.05);
+        
+        /* Nutrition Section */
+        .nutrition-section {
+            margin-bottom: 20px;
         }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 15px;
+        
+        .meal-plan-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 4px solid var(--success-green);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .meal-item {
+            background: rgba(16, 185, 129, 0.1);
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s;
+        }
+        
+        .meal-item:hover {
+            transform: translateX(5px);
+            background: rgba(16, 185, 129, 0.2);
+        }
+        
+        .meal-icon {
+            color: var(--success-green);
+            font-size: 1.2rem;
+            margin-right: 15px;
+        }
+        
+        /* Buttons */
+        .btn-primary {
+            background-color: var(--primary-blue);
             border: none;
-            margin-top: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s;
+            padding: 10px 20px;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.3s;
         }
-        button:hover {
-            background-color: #45a049;
+        
+        .btn-primary:hover {
+            background-color: var(--dark-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .health-container {
+                margin: 15px auto;
+            }
+            
+            .health-content {
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Health Tracking</h2>
-        <table>
-            <tr>
-                <th>Parameter</th>
-                <th>Value</th>
-            </tr>
-            <tr>
-                <td>Height</td>
-                <td><input type="text" id="height" placeholder="Enter height"></td>
-            </tr>
-            <tr>
-                <td>Weight</td>
-                <td><input type="text" id="weight" placeholder="Enter weight"></td>
-            </tr>
-            <tr>
-                <td>Vaccinations</td>
-                <td>
-                    <select id="vaccinationStatus">
-                        <option value="Pending">Pending</option>
-                        <option value="Completed">Completed</option>
-                        <option value="Scheduled">Scheduled</option>
-                    </select>
-                </td>
-            </tr>
-        </table>
-        <h3>Suggested Meal Plan</h3>
-        <label for="mealType">Select Meal Preference:</label>
-        <select id="mealType">
-            <option value="default">Balanced</option>
-            <option value="veg">Vegetarian</option>
-            <option value="glutenFree">Gluten-Free</option>
-        </select>
-        <ul id="mealPlan">
-            <li>Breakfast: Oatmeal with fruits</li>
-            <li>Lunch: Grilled chicken with rice</li>
-            <li>Dinner: Vegetable soup with whole wheat bread</li>
-        </ul>
-        <button onclick="updateMealPlan()">Generate Meal Plan</button>
+    <div class="health-container">
+        <div class="health-header">
+            <h2><i class="fas fa-heartbeat me-2"></i>Child Health Tracker</h2>
+            <p>Monitor your child's growth, vaccinations, and nutrition</p>
+        </div>
+        
+        <div class="health-content">
+            <!-- Growth Tracking Section -->
+            <section class="growth-section">
+                <h3><i class="fas fa-chart-line text-primary me-2"></i>Growth Tracking</h3>
+                <div class="growth-form">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="height" class="form-label">Height (cm)</label>
+                            <div class="input-group mb-3">
+                                <input type="number" class="form-control" id="height" placeholder="Enter height">
+                                <span class="input-group-text">cm</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="weight" class="form-label">Weight (kg)</label>
+                            <div class="input-group mb-3">
+                                <input type="number" class="form-control" id="weight" placeholder="Enter weight">
+                                <span class="input-group-text">kg</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="saveGrowthData()">
+                        <i class="fas fa-save me-2"></i>Save Measurements
+                    </button>
+                </div>
+            </section>
+            
+            <!-- Vaccination Section -->
+            <section class="vaccination-section">
+                <h3><i class="fas fa-syringe text-primary me-2"></i>Vaccination Status</h3>
+                <div class="vaccination-card">
+                    <div class="mb-3">
+                        <label for="vaccinationStatus" class="form-label">Current Vaccination Status</label>
+                        <select class="form-select" id="vaccinationStatus">
+                            <option value="Up to date">Up to date</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Overdue">Overdue</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nextVaccine" class="form-label">Next Vaccine Due</label>
+                        <input type="text" class="form-control" id="nextVaccine" placeholder="Vaccine name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="dueDate" class="form-label">Due Date</label>
+                        <input type="date" class="form-control" id="dueDate">
+                    </div>
+                    <button class="btn btn-primary" onclick="saveVaccinationData()">
+                        <i class="fas fa-calendar-check me-2"></i>Update Vaccination Record
+                    </button>
+                </div>
+            </section>
+            
+            <!-- Nutrition Section -->
+            <section class="nutrition-section">
+                <h3><i class="fas fa-utensils text-primary me-2"></i>Nutrition Plan</h3>
+                <div class="meal-plan-card">
+                    <div class="mb-3">
+                        <label for="mealType" class="form-label">Select Meal Preference</label>
+                        <select class="form-select" id="mealType" onchange="updateMealPlan()">
+                            <option value="balanced">Balanced</option>
+                            <option value="veg">Vegetarian</option>
+                            <option value="glutenFree">Gluten-Free</option>
+                            <option value="dairyFree">Dairy-Free</option>
+                        </select>
+                    </div>
+                    
+                    <h5 class="mt-4 mb-3">Suggested Meal Plan</h5>
+                    <div id="mealPlan">
+                        <div class="meal-item">
+                            <i class="fas fa-sun meal-icon"></i>
+                            <div>
+                                <strong>Breakfast:</strong> Oatmeal with mixed berries and almonds
+                            </div>
+                        </div>
+                        <div class="meal-item">
+                            <i class="fas fa-utensils meal-icon"></i>
+                            <div>
+                                <strong>Lunch:</strong> Grilled chicken with quinoa and steamed vegetables
+                            </div>
+                        </div>
+                        <div class="meal-item">
+                            <i class="fas fa-moon meal-icon"></i>
+                            <div>
+                                <strong>Dinner:</strong> Baked salmon with sweet potato mash and greens
+                            </div>
+                        </div>
+                        <div class="meal-item">
+                            <i class="fas fa-apple-alt meal-icon"></i>
+                            <div>
+                                <strong>Snacks:</strong> Greek yogurt with honey and walnuts
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        // Growth Data Function
+        function saveGrowthData() {
+            const height = document.getElementById('height').value;
+            const weight = document.getElementById('weight').value;
+            
+            if(height && weight) {
+                alert(`Growth data saved!\nHeight: ${height} cm\nWeight: ${weight} kg`);
+                // Here you would typically send data to server
+            } else {
+                alert('Please enter both height and weight');
+            }
+        }
+        
+        // Vaccination Data Function
+        function saveVaccinationData() {
+            const status = document.getElementById('vaccinationStatus').value;
+            const nextVaccine = document.getElementById('nextVaccine').value;
+            const dueDate = document.getElementById('dueDate').value;
+            
+            if(status && nextVaccine && dueDate) {
+                alert(`Vaccination record updated!\nStatus: ${status}\nNext Vaccine: ${nextVaccine}\nDue Date: ${dueDate}`);
+                // Here you would typically send data to server
+            } else {
+                alert('Please complete all vaccination fields');
+            }
+        }
+        
+        // Meal Plan Function
         function updateMealPlan() {
             const mealType = document.getElementById("mealType").value;
             const mealPlan = document.getElementById("mealPlan");
 
-            let meals = {
-                default: [
-                    "Breakfast: Scrambled eggs with toast",
-                    "Lunch: Quinoa salad with nuts",
-                    "Dinner: Baked fish with steamed vegetables"
+            const mealPlans = {
+                balanced: [
+                    {icon: "sun", meal: "Breakfast: Scrambled eggs with whole wheat toast and avocado"},
+                    {icon: "utensils", meal: "Lunch: Quinoa salad with grilled chicken and mixed vegetables"},
+                    {icon: "moon", meal: "Dinner: Baked fish with roasted sweet potatoes and greens"},
+                    {icon: "apple-alt", meal: "Snacks: Greek yogurt with honey and mixed nuts"}
                 ],
                 veg: [
-                    "Breakfast: Smoothie bowl with nuts",
-                    "Lunch: Lentil soup with brown rice",
-                    "Dinner: Stir-fried tofu with veggies"
+                    {icon: "sun", meal: "Breakfast: Smoothie bowl with banana, berries and chia seeds"},
+                    {icon: "utensils", meal: "Lunch: Lentil soup with brown rice and salad"},
+                    {icon: "moon", meal: "Dinner: Stir-fried tofu with mixed vegetables and quinoa"},
+                    {icon: "apple-alt", meal: "Snacks: Hummus with carrot and cucumber sticks"}
                 ],
                 glutenFree: [
-                    "Breakfast: Omelette with avocado",
-                    "Lunch: Grilled chicken with quinoa",
-                    "Dinner: Baked salmon with steamed greens"
+                    {icon: "sun", meal: "Breakfast: Omelette with spinach and gluten-free toast"},
+                    {icon: "utensils", meal: "Lunch: Grilled chicken with roasted vegetables"},
+                    {icon: "moon", meal: "Dinner: Baked salmon with mashed cauliflower"},
+                    {icon: "apple-alt", meal: "Snacks: Rice cakes with almond butter"}
+                ],
+                dairyFree: [
+                    {icon: "sun", meal: "Breakfast: Oatmeal made with almond milk and berries"},
+                    {icon: "utensils", meal: "Lunch: Chicken salad with olive oil dressing"},
+                    {icon: "moon", meal: "Dinner: Beef stir-fry with coconut aminos and rice"},
+                    {icon: "apple-alt", meal: "Snacks: Fresh fruit with sunflower seed butter"}
                 ]
             };
 
-            mealPlan.innerHTML = meals[mealType].map(item => `<li>${item}</li>`).join('');
+            mealPlan.innerHTML = mealPlans[mealType].map(item => `
+                <div class="meal-item">
+                    <i class="fas fa-${item.icon} meal-icon"></i>
+                    <div><strong>${item.meal.split(':')[0]}:</strong>${item.meal.split(':')[1]}</div>
+                </div>
+            `).join('');
         }
     </script>
 </body>

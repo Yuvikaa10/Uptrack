@@ -6,98 +6,240 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Font Awesome for icons -->
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
   <style>
+    :root {
+      --primary-green: #2e7d32;
+      --dark-green: #1b5e20;
+      --light-green: #81c784;
+      --accent-orange: #ff9800;
+      --text-dark: #263238;
+      --text-light: #f5f5f5;
+      --light-gray: #eceff1;
+      --border-radius: 12px;
+      --box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
     * {
       box-sizing: border-box;
-    }
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: #f0f4f8;
       margin: 0;
       padding: 0;
     }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f5f7fa;
+      color: var(--text-dark);
+      line-height: 1.6;
+      padding: 20px;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-image: radial-gradient(circle at 10% 20%, rgba(129, 199, 132, 0.1) 0%, rgba(129, 199, 132, 0.05) 90%);
+    }
+
     .container {
       max-width: 600px;
-      margin: 60px auto;
+      width: 100%;
       background: #fff;
       padding: 40px;
-      border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-      transition: all 0.3s ease;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      transition: var(--transition);
+      animation: fadeInUp 0.6s ease-out;
+      border: 1px solid rgba(0,0,0,0.05);
     }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     h2 {
       text-align: center;
-      color: #2e7d32;
+      color: var(--primary-green);
       margin-bottom: 30px;
+      font-weight: 600;
+      font-size: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
     }
+
+    h2 i {
+      color: var(--accent-orange);
+    }
+
     form {
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 24px;
     }
-    label {
-      font-weight: 600;
-      margin-bottom: 5px;
-      display: block;
-      color: #333;
-    }
+
     .form-group {
       position: relative;
     }
+
+    label {
+      font-weight: 500;
+      margin-bottom: 8px;
+      display: block;
+      color: var(--text-dark);
+      font-size: 15px;
+      transition: var(--transition);
+    }
+
+    .form-group:focus-within label {
+      color: var(--primary-green);
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 14px 16px 14px 48px;
+      font-size: 15px;
+      border: 1px solid #e0e0e0;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+      background-color: var(--light-gray);
+      color: var(--text-dark);
+    }
+
+    textarea.form-control {
+      min-height: 100px;
+      resize: vertical;
+      padding-left: 16px;
+    }
+
+    .form-control:focus {
+      border-color: var(--primary-green);
+      box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.2);
+      outline: none;
+      background-color: white;
+    }
+
     .form-group i {
       position: absolute;
-      left: 12px;
+      left: 16px;
       top: 50%;
       transform: translateY(-50%);
-      color: #999;
+      color: #757575;
+      font-size: 18px;
+      transition: var(--transition);
     }
-    input, textarea {
-      width: 100%;
-      padding: 10px 10px 10px 35px;
-      font-size: 15px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      transition: border-color 0.3s;
+
+    .form-group:focus-within i {
+      color: var(--primary-green);
     }
-    input:focus, textarea:focus {
-      border-color: #4CAF50;
-      outline: none;
-    }
+
     .form-error {
       color: #d32f2f;
       font-size: 13px;
-      margin-top: 4px;
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
+
+    .form-error i {
+      font-size: 14px;
+    }
+
     .submit-btn {
-      padding: 12px;
-      background-color: #4CAF50;
+      padding: 14px;
+      background-color: var(--primary-green);
       border: none;
       color: white;
       font-size: 16px;
-      font-weight: bold;
-      border-radius: 8px;
+      font-weight: 600;
+      border-radius: var(--border-radius);
       cursor: pointer;
-      transition: background 0.3s ease;
+      transition: var(--transition);
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
+
     .submit-btn:hover {
-      background-color: #43a047;
+      background-color: var(--dark-green);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
     }
+
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+
     .back-link {
-      margin-top: 20px;
+      margin-top: 25px;
       text-align: center;
     }
+
     .back-link a {
-      color: #4CAF50;
+      color: var(--primary-green);
       text-decoration: none;
       font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+      padding: 6px 12px;
+      border-radius: 6px;
     }
+
     .back-link a:hover {
-      text-decoration: underline;
+      color: var(--dark-green);
+      background-color: rgba(46, 125, 50, 0.1);
+      text-decoration: none;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .container {
+        padding: 30px 20px;
+        margin: 20px;
+      }
+
+      h2 {
+        font-size: 24px;
+      }
+
+      form {
+        gap: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 10px;
+      }
+
+      .container {
+        padding: 25px 15px;
+      }
+
+      .form-control {
+        padding: 12px 14px 12px 42px;
+      }
+
+      .form-group i {
+        left: 14px;
+        font-size: 16px;
+      }
     }
   </style>
 </head>
@@ -109,57 +251,125 @@
     {{ form.hidden_tag() }}
 
     <div class="form-group">
-      <label for="name">Name</label>
+      <label for="name">Full Name</label>
       <i class="fas fa-user"></i>
-      {{ form.name(placeholder="Enter child's name") }}
+      {{ form.name(placeholder="Enter child's full name", class="form-control") }}
       {% if form.name.errors %}
-        <div class="form-error">{{ form.name.errors[0] }}</div>
+        <div class="form-error">
+          <i class="fas fa-exclamation-circle"></i>
+          {{ form.name.errors[0] }}
+        </div>
       {% endif %}
     </div>
 
     <div class="form-group">
       <label for="age">Age</label>
-      <i class="fas fa-hourglass-half"></i>
-      {{ form.age(placeholder="Age in years") }}
+      <i class="fas fa-birthday-cake"></i>
+      {{ form.age(placeholder="Age in years", class="form-control") }}
       {% if form.age.errors %}
-        <div class="form-error">{{ form.age.errors[0] }}</div>
+        <div class="form-error">
+          <i class="fas fa-exclamation-circle"></i>
+          {{ form.age.errors[0] }}
+        </div>
       {% endif %}
     </div>
 
     <div class="form-group">
       <label for="height">Height (cm)</label>
       <i class="fas fa-ruler-vertical"></i>
-      {{ form.height(placeholder="e.g. 110") }}
+      {{ form.height(placeholder="e.g. 110", class="form-control") }}
       {% if form.height.errors %}
-        <div class="form-error">{{ form.height.errors[0] }}</div>
+        <div class="form-error">
+          <i class="fas fa-exclamation-circle"></i>
+          {{ form.height.errors[0] }}
+        </div>
       {% endif %}
     </div>
 
     <div class="form-group">
       <label for="weight">Weight (kg)</label>
-      <i class="fas fa-weight"></i>
-      {{ form.weight(placeholder="e.g. 18.5") }}
+      <i class="fas fa-weight-hanging"></i>
+      {{ form.weight(placeholder="e.g. 18.5", class="form-control") }}
       {% if form.weight.errors %}
-        <div class="form-error">{{ form.weight.errors[0] }}</div>
+        <div class="form-error">
+          <i class="fas fa-exclamation-circle"></i>
+          {{ form.weight.errors[0] }}
+        </div>
       {% endif %}
     </div>
 
     <div class="form-group">
       <label for="milestone">Milestones</label>
-      <i class="fas fa-shoe-prints"></i>
-      {{ form.milestone(rows=3, placeholder="Write milestone notes...") }}
+      <i class="fas fa-tasks"></i>
+      {{ form.milestone(placeholder="Describe developmental milestones (first words, steps, etc.)", class="form-control") }}
       {% if form.milestone.errors %}
-        <div class="form-error">{{ form.milestone.errors[0] }}</div>
+        <div class="form-error">
+          <i class="fas fa-exclamation-circle"></i>
+          {{ form.milestone.errors[0] }}
+        </div>
       {% endif %}
     </div>
 
-    <button type="submit" class="submit-btn">{{ form.submit.label }}</button>
+    <button type="submit" class="submit-btn">
+      <i class="fas fa-plus-circle"></i>
+      {{ form.submit.label.text }}
+    </button>
   </form>
 
   <div class="back-link">
-    <a href="{{ url_for('dashboard') }}">← Back to Dashboard</a>
+    <a href="{{ url_for('dashboard') }}">
+      <i class="fas fa-arrow-left"></i>
+      Back to Dashboard
+    </a>
   </div>
 </div>
+
+<script>
+  // Add character counter for textarea
+  document.addEventListener('DOMContentLoaded', function() {
+    const textarea = document.querySelector('textarea');
+    if (textarea) {
+      const charCounter = document.createElement('div');
+      charCounter.className = 'char-counter';
+      charCounter.style.textAlign = 'right';
+      charCounter.style.fontSize = '12px';
+      charCounter.style.color = '#757575';
+      charCounter.style.marginTop = '4px';
+      textarea.parentNode.insertBefore(charCounter, textarea.nextSibling);
+      
+      textarea.addEventListener('input', function() {
+        const remaining = 500 - this.value.length;
+        charCounter.textContent = `${this.value.length}/500 characters`;
+        
+        if (remaining < 50) {
+          charCounter.style.color = '#d32f2f';
+        } else {
+          charCounter.style.color = '#757575';
+        }
+      });
+    }
+    
+    // Add input formatting for height and weight
+    const heightInput = document.querySelector('input[name="height"]');
+    const weightInput = document.querySelector('input[name="weight"]');
+    
+    if (heightInput) {
+      heightInput.addEventListener('blur', function() {
+        if (this.value && !isNaN(this.value)) {
+          this.value = parseFloat(this.value).toFixed(1);
+        }
+      });
+    }
+    
+    if (weightInput) {
+      weightInput.addEventListener('blur', function() {
+        if (this.value && !isNaN(this.value)) {
+          this.value = parseFloat(this.value).toFixed(1);
+        }
+      });
+    }
+  });
+</script>
 
 </body>
 </html>

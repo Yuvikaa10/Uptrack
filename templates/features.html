@@ -3,120 +3,645 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Features | Child Companion</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Features | UpTrack - Child Safety Companion</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #2575fc, #6a11cb);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            padding: 20px;
+        :root {
+            --primary-blue: #2563eb;
+            --dark-blue: #1e40af;
+            --accent-orange: #f59e0b;
+            --text-dark: #1e293b;
+            --text-light: #f8fafc;
         }
-
-        .features-container {
-            background: white;
-            padding: 40px;
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-            text-align: center;
-            max-width: 900px;
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8fafc;
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Navigation */
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px 0;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar-brand i {
+            margin-right: 10px;
+            color: var(--accent-orange);
+        }
+        
+        .nav-link {
+            font-weight: 600;
+            color: var(--text-dark) !important;
+            margin: 0 10px;
+            position: relative;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--accent-orange);
+            transition: width 0.3s;
+        }
+        
+        .nav-link:hover:after {
             width: 100%;
         }
-
-        .features-container h1 {
-            margin-bottom: 20px;
-            color: #2575fc;
-            font-weight: bold;
-            font-size: 32px;
+        
+        /* Hero Section */
+        .features-hero {
+            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+            color: white;
+            padding: 100px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
         }
-
-        .features-container h2 {
+        
+        .features-hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .features-hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            opacity: 0.9;
+        }
+        
+        /* Features Grid */
+        .features-section {
+            padding: 80px 0;
+            position: relative;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            font-weight: 700;
+            color: var(--text-dark);
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--accent-orange);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            text-align: center;
+            border-top: 4px solid var(--primary-blue);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            background: rgba(37, 99, 235, 0.1);
+            width: 80px;
+            height: 80px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+        
+        .feature-card:hover .feature-icon {
+            background: var(--primary-blue);
+            color: white;
+            transform: rotateY(180deg);
+        }
+        
+        .feature-card h3 {
+            margin: 20px 0 15px;
+            color: var(--text-dark);
+            font-weight: 700;
+        }
+        
+        /* Feature Categories */
+        .feature-categories {
+            padding: 60px 0;
+            background: rgba(37, 99, 235, 0.05);
+        }
+        
+        .category-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
             margin-bottom: 30px;
-            color: #2575fc;
-            font-weight: bold;
-            font-size: 24px;
+            transition: all 0.3s;
         }
-
-        .feature {
-            margin-bottom: 20px;
-            padding: 20px;
-            background: #e3f2fd;
-            border-radius: 8px;
-            text-align: left;
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+        }
+        
+        .category-img {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .category-content {
+            padding: 25px;
+        }
+        
+        .category-content h3 {
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .category-features {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .category-features li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .category-features li:before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--accent-orange);
+        }
+        
+        /* Testimonials */
+        .testimonials-section {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .testimonial-card {
+            background: var(--text-light);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+            border-left: 4px solid var(--accent-orange);
+        }
+        
+        .testimonial-card:before {
+            content: '"';
+            font-size: 5rem;
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            color: rgba(37, 99, 235, 0.1);
+            font-family: serif;
+            line-height: 1;
+        }
+        
+        .testimonial-author {
             display: flex;
             align-items: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-top: 20px;
         }
-
-        .feature:hover {
-            transform: translateY(-5px);
-            box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.2);
-        }
-
-        .feature i {
-            font-size: 28px;
+        
+        .author-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
             margin-right: 15px;
-            color: #2575fc;
+            border: 3px solid var(--accent-orange);
         }
-
-        .feature h4 {
-            color: #2575fc;
-            margin-bottom: 5px;
-            font-size: 20px;
-            font-weight: bold;
+        
+        /* CTA Section */
+        .cta-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+            color: white;
+            text-align: center;
         }
-
-        .feature p {
-            color: #555;
-            font-size: 16px;
+        
+        .cta-section h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .cta-buttons {
+            margin-top: 30px;
+        }
+        
+        .cta-buttons .btn {
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+            min-width: 180px;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent-orange);
+            color: var(--text-dark);
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            background-color: #e67e22;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(255,255,255,0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--text-dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+        
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        
+        .social-icons a {
+            color: white;
+            font-size: 1.2rem;
+            margin-right: 15px;
+            transition: all 0.3s;
+        }
+        
+        .social-icons a:hover {
+            color: var(--accent-orange);
+            transform: translateY(-3px);
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .features-hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .features-hero p {
+                font-size: 1rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-buttons .btn {
+                display: block;
+                width: 100%;
+                margin: 10px 0;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="features-container">
-        <h1>Explore Our Features</h1>
-        <h2>Ensuring the Best Care for Your Child</h2>
-        <div class="feature">
-            <i class="fas fa-map-marker-alt"></i>
-            <div>
-                <h4>Real-Time Child Monitoring</h4>
-                <p>Track your child’s activities and location with real-time updates.</p>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-child"></i>
+                UpTrack
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="features.html">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About</a>
+                    </li>
+                    
+                </ul>
+                <div class="d-flex">
+                    <a href="login.html" class="btn btn-outline-primary me-2">Login</a>
+                    <a href="signup.html" class="btn btn-primary">Sign Up</a>
+                </div>
             </div>
         </div>
-        <div class="feature">
-            <i class="fas fa-heartbeat"></i>
-            <div>
-                <h4>Health and Growth Tracking</h4>
-                <p>Monitor your child’s health metrics and development progress.</p>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="features-hero">
+        <div class="container">
+            <h1>Powerful Features for Your Child's Safety</h1>
+            <p>Discover how UpTrack helps you monitor, protect, and nurture your child's growth with our comprehensive set of features</p>
+        </div>
+    </section>
+    
+    <!-- Core Features -->
+    <section class="features-section">
+        <div class="container">
+            <h2 class="section-title">Core Features</h2>
+            
+            <div class="features-grid">
+                <!-- Feature 1 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3>Real-Time Location Tracking</h3>
+                    <p>Know exactly where your child is at all times with precise GPS tracking and geofencing alerts for safe zones.</p>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <h3>Health Monitoring</h3>
+                    <p>Track vaccinations, growth metrics, and health records with pediatrician-approved insights and reminders.</p>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Emergency Alerts</h3>
+                    <p>Instant notifications for SOS signals, unusual activity, or when your child leaves designated safe areas.</p>
+                </div>
+                
+                <!-- Feature 4 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Development Tracking</h3>
+                    <p>Personalized milestone tracking with expert recommendations tailored to your child's age and stage.</p>
+                </div>
+                
+                <!-- Feature 5 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h3>Nutrition Planning</h3>
+                    <p>AI-powered meal recommendations based on your child's age, allergies, and nutritional requirements.</p>
+                </div>
+                
+                <!-- Feature 6 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bed"></i>
+                    </div>
+                    <h3>Sleep Monitoring</h3>
+                    <p>Track sleep patterns and receive recommendations for optimal rest based on pediatric sleep science.</p>
+                </div>
             </div>
         </div>
-        <div class="feature">
-            <i class="fas fa-bell"></i>
-            <div>
-                <h4>Emergency Alerts</h4>
-                <p>Receive instant alerts for any potential threats or emergencies.</p>
+    </section>
+    
+    <!-- Feature Categories -->
+    <section class="feature-categories">
+        <div class="container">
+            <h2 class="section-title">Feature Categories</h2>
+            
+            <div class="row">
+                <!-- Category 1 -->
+                <div class="col-md-4">
+                    <div class="category-card">
+                        <div class="category-img" style="background-image: url('https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80');"></div>
+                        <div class="category-content">
+                            <h3>Safety & Security</h3>
+                            <ul class="category-features">
+                                <li>Real-time GPS tracking</li>
+                                <li>Geofencing alerts</li>
+                                <li>Emergency SOS button</li>
+                                <li>Route history</li>
+                                <li>Speed monitoring</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Category 2 -->
+                <div class="col-md-4">
+                    <div class="category-card">
+                        <div class="category-img" style="background-image: url('https://images.unsplash.com/photo-1530026186672-2cd00ffc50fe?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80');"></div>
+                        <div class="category-content">
+                            <h3>Health & Wellness</h3>
+                            <ul class="category-features">
+                                <li>Vaccination tracker</li>
+                                <li>Growth charts</li>
+                                <li>Symptom checker</li>
+                                <li>Medication reminders</li>
+                                <li>Doctor visit logs</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Category 3 -->
+                <div class="col-md-4">
+                    <div class="category-card">
+                        <div class="category-img" style="background-image: url('https://images.unsplash.com/photo-1541692641319-981cc79ee10a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80');"></div>
+                        <div class="category-content">
+                            <h3>Development & Learning</h3>
+                            <ul class="category-features">
+                                <li>Milestone tracking</li>
+                                <li>Activity suggestions</li>
+                                <li>Educational content</li>
+                                <li>Behavior tracking</li>
+                                <li>Skill development</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="feature">
-            <i class="fas fa-user-shield"></i>
-            <div>
-                <h4>Parental Controls</h4>
-                <p>Manage screen time and content restrictions effortlessly.</p>
+    </section>
+    
+    <!-- Testimonials -->
+    <section class="testimonials-section">
+        <div class="container">
+            <h2 class="section-title">What Parents Say</h2>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <p>"UpTrack's location tracking gave me peace of mind when my daughter started walking to school alone. The geofencing alerts are incredibly accurate."</p>
+                        <div class="testimonial-author">
+                            <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Sarah J." class="author-img">
+                            <div>
+                                <strong>Sarah J.</strong>
+                                <div>Mother of 2</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <p>"The health tracking features helped us identify our son's food allergies early. The symptom checker is a game-changer for new parents."</p>
+                        <div class="testimonial-author">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="David L." class="author-img">
+                            <div>
+                                <strong>David L.</strong>
+                                <div>Father</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <p>"As a pediatrician, I recommend UpTrack to all my patients. The development tracking aligns perfectly with medical standards."</p>
+                        <div class="testimonial-author">
+                            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Dr. Priya K." class="author-img">
+                            <div>
+                                <strong>Dr. Priya K.</strong>
+                                <div>Pediatrician</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="feature">
-            <i class="fas fa-utensils"></i>
-            <div>
-                <h4>Personalized Meal Plans</h4>
-                <p>Get AI-powered meal recommendations based on your child’s age and nutritional needs.</p>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Experience Peace of Mind?</h2>
+            <p>Join thousands of parents who trust UpTrack to keep their children safe and healthy</p>
+            <div class="cta-buttons">
+                <a href="signup.html" class="btn btn-primary">Start Trial</a>
+                
             </div>
         </div>
-    </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="footer-logo">
+                        <i class="fas fa-child"></i> UpTrack
+                    </div>
+                    <p>Your child's safety and growth, our priority.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="features.html" class="text-white">Features</a></li>
+                        <li><a href="about.html" class="text-white">About Us</a></li>
+                        
+                        <li><a href="blog.html" class="text-white">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h5>Contact Us</h5>
+                    <p><i class="fas fa-envelope me-2"></i> support@uptrack.com</p>
+                    <p><i class="fas fa-phone me-2"></i> (800) 123-4567</p>
+                    <p><i class="fas fa-map-marker-alt me-2"></i> 123 Safety Ave, San Francisco, CA</p>
+                </div>
+            </div>
+            <hr class="my-4 bg-light opacity-25">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2024 UpTrack. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Animation for feature cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const featureCards = document.querySelectorAll('.feature-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            featureCards.forEach(card => {
+                card.style.opacity = 0;
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'all 0.6s ease-out';
+                observer.observe(card);
+            });
+        });
+    </script>
 </body>
 </html>

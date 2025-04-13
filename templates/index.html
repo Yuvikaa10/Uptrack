@@ -3,135 +3,587 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Child Companion</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <img src="{{ url_for('static', filename='images/hero.jpg') }}" alt="Hero Image">
-
+    <title>UpTrack - Child Safety Companion</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        :root {
+            --primary-blue: #2563eb;
+            --dark-blue: #1e40af;
+            --accent-orange: #f59e0b;
+            --text-dark: #1e293b;
+            --text-light: #f8fafc;
+        }
+        
         body {
-            font-family: 'Poppins', sans-serif;
-            background: #78a7ee;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
+            color: var(--text-dark);
+            line-height: 1.6;
         }
-
+        
+        /* Header/Navigation */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+        }
+        
         .navbar {
-            background: linear-gradient(to right, #2575fc, #6a11cb);
+            padding: 15px 0;
         }
-
-        .hero {
-            height: 90vh;
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--primary-blue);
             display: flex;
+            align-items: center;
+            transition: transform 0.3s;
+        }
+        
+        .navbar-brand:hover {
+            transform: scale(1.05);
+        }
+        
+        .navbar-brand i {
+            margin-right: 10px;
+            color: var(--accent-orange);
+            font-size: 1.8rem;
+        }
+        
+        .nav-link {
+            font-weight: 600;
+            margin: 0 15px;
+            color: var(--text-dark) !important;
+            position: relative;
+            padding: 5px 0;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--accent-orange);
+            transition: width 0.3s;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+        
+        .nav-buttons .btn {
+            margin-left: 10px;
+            padding: 8px 20px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        /* Hero Section with Background Image */
+        .hero-section {
+            height: 700px;
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                url('../images/hero-bg.jpg') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
             text-align: center;
             color: white;
-            background: url('images/hero.jpg') center/cover no-repeat;
-            animation: fadeIn 1.5s ease-in-out;
+            padding: 0 20px;
+            padding-top: 80px;
+            position: relative;
+            overflow: hidden;
+            
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        
+        .hero-content {
+            max-width: 800px;
+            position: relative;
+            z-index: 2;
         }
-
-        .hero h1 {
-            font-size: 3rem;
-            font-weight: bold;
-            animation: slideIn 1.5s ease-in-out;
+        
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            animation: fadeInUp 1s ease-out;
         }
-
-        @keyframes slideIn {
-            from { transform: translateY(-30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            animation: fadeInUp 1s ease-out 0.2s forwards;
+            opacity: 0;
         }
-
+        
+        .hero-buttons {
+            animation: fadeInUp 1s ease-out 0.4s forwards;
+            opacity: 0;
+        }
+        
+        .hero-buttons .btn {
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+            min-width: 180px;
+        }
+        
         .btn-primary {
-            background: #ff7eb3;
+            background-color: var(--accent-orange);
+            color: var(--text-dark);
             border: none;
-            padding: 12px 25px;
-            font-size: 1.2rem;
-            transition: 0.3s;
-            animation: bounce 2s infinite;
         }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
-
+        
         .btn-primary:hover {
-            background: #ff5286;
+            background-color: #e67e22;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
-
-        .container-section {
-            width: 80%;
-            margin: 50px auto;
-            background: #e3f2fd;
-            padding: 40px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            text-align: center;
-            animation: fadeIn 2s ease-in-out;
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            background: #6a11cb;
+        
+        .btn-secondary {
+            background-color: var(--primary-blue);
             color: white;
+            border: 2px solid white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--dark-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Features Section */
+        .features-section {
+            padding: 100px 0;
+            background-color: var(--text-light);
+            position: relative;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            font-weight: 700;
+            color: var(--text-dark);
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--accent-orange);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            height: 100%;
+            border-top: 4px solid var(--primary-blue);
+            text-align: center;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            background: rgba(37, 99, 235, 0.1);
+            width: 80px;
+            height: 80px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .feature-card h3 {
+            margin: 20px 0 15px;
+            color: var(--text-dark);
+        }
+        
+        /* Stats Section */
+        .stats-section {
+            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .stat-item {
+            padding: 20px;
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        /* Testimonials */
+        .testimonials-section {
+            padding: 100px 0;
+            background-color: white;
+        }
+        
+        .testimonial-card {
+            background: var(--text-light);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+            border-left: 4px solid var(--accent-orange);
+        }
+        
+        .testimonial-card:before {
+            content: '"';
+            font-size: 5rem;
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            color: rgba(37, 99, 235, 0.1);
+            font-family: serif;
+            line-height: 1;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+        
+        .author-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+            border: 3px solid var(--accent-orange);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--text-dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+        
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        
+        .social-icons a {
+            color: white;
+            font-size: 1.2rem;
+            margin-right: 15px;
+            transition: all 0.3s;
+        }
+        
+        .social-icons a:hover {
+            color: var(--accent-orange);
+            transform: translateY(-3px);
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.2rem;
+            }
+            
+            .hero-buttons .btn {
+                display: block;
+                width: 100%;
+                margin: 10px 0;
+            }
+            
+            .feature-card {
+                margin-bottom: 20px;
+            }
+            
+            .section-title {
+                margin-bottom: 40px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">Child Companion</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="features.html">Features</a></li>
-                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-                   
-                    <li class="nav-item"><a class="nav-link btn btn-primary text-white" href="login.html">Login</a></li>
-                    <li class="nav-item"><a class="nav-link btn btn-secondary text-white" href="signup.html">Sign Up</a></li>
-                </ul>
+    <!-- Navigation -->
+    <header>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <i class="fas fa-child"></i>
+                    UpTrack
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="features.html">Features</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="about.html">About</a>
+                        </li>
+                    </ul>
+                    <div class="nav-buttons">
+                        <a href="login.html" class="btn btn-outline-primary">Login</a>
+                        <a href="signup.html" class="btn btn-primary">Sign Up</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <!-- Hero Section with Background Image -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>Protect and Nurture Your Child's Growth</h1>
+            <p>Advanced monitoring and development tracking for modern parents</p>
+            <div class="hero-buttons">
+                <a href="signup.html" class="btn btn-primary">Get Started</a>
+                <a href="features.html" class="btn btn-secondary">Learn More</a>
             </div>
         </div>
-    </nav>
+    </section>
     
-    <!-- Hero Section -->
-    <div class="hero">
-        <h1>Welcome to Child Companion</h1>
-        <p>Your child's safety and growth, our priority.</p>
-        <a href="signup.html" class="btn btn-primary">Get Started</a>
-    </div>
-
     <!-- Features Section -->
-    <div class="container-section">
-        <h2>Why Choose Us?</h2>
-        <p>Track your child's growth and ensure their safety with our AI-powered system.</p>
-        <ul style="text-align: left; display: inline-block;">
-            <li>Real-time health monitoring and safety alerts</li>
-            <li>Personalized child development insights</li>
-            <li>Easy-to-use interface for parents</li>
-            <li>Secure and private data protection</li>
-            <li>24/7 support for all your needs</li>
-        </ul>
-    </div>
-
+    <section class="features-section">
+        <div class="container">
+            <h2 class="section-title">Why Choose UpTrack</h2>
+            
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h3>Real-time Location</h3>
+                        <p>Track your child's whereabouts with precise GPS technology and receive instant geofencing alerts when they enter or leave designated safe zones.</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <h3>Health Monitoring</h3>
+                        <p>Comprehensive health tracking including vaccination schedules, growth charts, and symptom logging with pediatrician-approved insights.</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Development Tracking</h3>
+                        <p>Personalized milestone tracking with expert recommendations tailored to your child's age and developmental stage.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <div class="stat-number">10K+</div>
+                        <div class="stat-label">Happy Parents</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Support</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <div class="stat-number">15+</div>
+                        <div class="stat-label">Metrics Tracked</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <div class="stat-number">99.9%</div>
+                        <div class="stat-label">Reliability</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Testimonials Section -->
+    <section class="testimonials-section">
+        <div class="container">
+            <h2 class="section-title">What Parents Say</h2>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <p>"UpTrack has given me peace of mind as a working parent. I can check on my child's location and health stats anytime."</p>
+                        <div class="testimonial-author">
+                            <img src="../images/testimonial1.jpg" alt="Sarah J." class="author-img">
+                            <div>
+                                <strong>Sarah J.</strong>
+                                <div>Mother of 2</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <p>"The development tracking helped us identify our son's speech delay early. We got him help thanks to UpTrack's alerts."</p>
+                        <div class="testimonial-author">
+                            <img src="../images/testimonial2.jpg" alt="David L." class="author-img">
+                            <div>
+                                <strong>David L.</strong>
+                                <div>Father</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <p>"As a first-time mom, the milestone suggestions and health tracking have been invaluable resources for me."</p>
+                        <div class="testimonial-author">
+                            <img src="../images/testimonial3.jpg" alt="Priya K." class="author-img">
+                            <div>
+                                <strong>Priya K.</strong>
+                                <div>New Parent</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
     <!-- Footer -->
     <footer>
-        &copy; 2024 Child Companion. All Rights Reserved.
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="footer-logo">
+                        <i class="fas fa-child"></i> UpTrack
+                    </div>
+                    <p>Your child's safety and growth, our priority.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="features.html" class="text-white">Features</a></li>
+                        <li><a href="about.html" class="text-white">About Us</a></li>
+                        <li><a href="login.html" class="text-white">Login</a></li>
+                        <li><a href="signup.html" class="text-white">Sign Up</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h5>Contact Us</h5>
+                    <p><i class="fas fa-envelope me-2"></i> support@uptrack.com</p>
+                    <p><i class="fas fa-phone me-2"></i> (800) 123-4567</p>
+                </div>
+            </div>
+            <hr class="my-4 bg-light opacity-25">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2024 UpTrack. All Rights Reserved.</p>
+            </div>
+        </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Initialize Bootstrap components
+        var navbarToggler = document.querySelector('.navbar-toggler');
+        var navbarCollapse = document.querySelector('.navbar-collapse');
+        
+        navbarToggler.addEventListener('click', function() {
+            navbarCollapse.classList.toggle('show');
+        });
+        
+        // Animation on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const featureCards = document.querySelectorAll('.feature-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            featureCards.forEach(card => {
+                card.style.opacity = 0;
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'all 0.6s ease-out';
+                observer.observe(card);
+            });
+        });
+    </script>
 </body>
 </html>

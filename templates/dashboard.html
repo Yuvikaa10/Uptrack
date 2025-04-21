@@ -246,14 +246,18 @@
             transform: translateY(-5px);
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
-        
-        .feature-icon {
-            font-size: 2.5rem;
-            color: var(--primary-blue);
-            margin-bottom: 20px;
+        .status-badge {
+            font-size: 0.9rem;
+            padding: 4px 8px;
+            border-radius: 5px;
+            color: white;
         }
-        
-        /* Footer */
+        .on-track {
+            background-color: #28a745;
+        }
+        .needs-attention {
+            background-color: #dc3545;
+        }
         footer {
             background: linear-gradient(to right, var(--primary-blue), var(--dark-blue));
             color: white;
@@ -296,151 +300,165 @@
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <i class="fas fa-child"></i> Child Companion
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="home.html">
-                            <i class="fas fa-home"></i> Home
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="profile.html">
-                            <i class="fas fa-user"></i> Profile
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="health.html">
-                            <i class="fas fa-heartbeat"></i> Health
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="development.html">
-                            <i class="fas fa-chart-line"></i> Development
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="safety.html">
-                            <i class="fas fa-shield-alt"></i> Safety
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="logout.html">
-                            <i class="fas fa-sign-out-alt"></i> Logout
-                        </a>
-                    </li>
-                </ul>
-            </div>
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#">Child Companion</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
+                <li class="nav-item"><a class="nav-link" href="features.html">Features</a></li>
+                <li class="nav-item"><a class="nav-link" href="health.html">Health</a></li>
+                <li class="nav-item"><a class="nav-link" href="development.html">Development</a></li>
+                <li class="nav-item"><a class="nav-link" href="safety.html">Safety</a></li>
+                <li class="nav-item"><a class="nav-link" href="logout.html">Logout</a></li>
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
 
-    <!-- Dashboard Content -->
-    <div class="dashboard container">
-        <!-- Welcome Banner -->
-        <div class="welcome-banner">
-            <h2>Welcome back, Parent!</h2>
-            <p class="mb-0">Here's your child's latest updates and important information</p>
-        </div>
+
+<!-- Add Child Modal -->
+
+<div class="modal fade" id="addChildModal" tabindex="-1" aria-labelledby="addChildModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form method="POST" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <div class="modal-body">
+              <div class="mb-3">
+                {{ form.name.label(class="form-label") }}
+                {{ form.name(class="form-control", placeholder="Enter Full Name") }}
+              </div>
+              <div class="mb-3">
+                {{ form.age.label(class="form-label") }}
+                {{ form.age(class="form-control", placeholder="Enter Age") }}
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  {{ form.height.label(class="form-label") }}
+                  {{ form.height(class="form-control", placeholder="Height in cm") }}
+                </div>
+                <div class="col-md-6 mb-3">
+                  {{ form.weight.label(class="form-label") }}
+                  {{ form.weight(class="form-control", placeholder="Weight in kg") }}
+                </div>
+              </div>
+              <div class="mb-3">
+                {{ form.milestone.label(class="form-label") }}
+                {{ form.milestone(class="form-control", placeholder="Recent Milestone") }}
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              {{ form.submit(class="btn btn-primary") }}
+            </div>
+          </form>
+      </div>
+    </div>
+  </div>
+  
+  
+
+<div class="dashboard container">
+    <div class="welcome">
+        <h2>Welcome, Parent!</h2>
+        <p>Monitor your child's health, growth, and safety all in one place.</p>
+    </div>
 
         <!-- Stats Overview -->
-        <div class="row">
-            <div class="col-md-4">
-                <div class="stats-card">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="stats-card">
                     <i class="fas fa-heartbeat"></i>
-                    <h4>Health Status</h4>
-                    <p class="status-normal">Normal</p>
+                <h4>Health Status</h4>
+                <p class="status-normal">Normal</p>
                     <small class="text-muted">Last checked: Today</small>
-                </div>
             </div>
-            <div class="col-md-4">
-                <div class="stats-card">
+        </div>
+        <div class="col-md-4">
+            <div class="stats-card">
                     <i class="fas fa-baby"></i>
-                    <h4>Growth Progress</h4>
-                    <p>85% Milestones</p>
+                <h4>Growth Progress</h4>
+                <p>85% Milestones</p>
                     <div class="progress mt-2" style="height: 8px;">
                         <div class="progress-bar bg-success" role="progressbar" style="width: 85%"></div>
                     </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="stats-card">
-                    <i class="fas fa-bell"></i>
-                    <h4>Safety Alerts</h4>
-                    <p class="status-normal">No Alerts</p>
-                    <small class="text-muted">All systems normal</small>
-                </div>
             </div>
         </div>
+        <div class="col-md-4">
+            <div class="stats-card">
+                    <i class="fas fa-bell"></i>
+                <h4>Safety Alerts</h4>
+                <p class="status-normal">No Alerts</p>
+                    <small class="text-muted">All systems normal</small>
+            </div>
+        </div>
+    </div>
 
         <!-- Growth Chart -->
-        <div class="chart-container">
+    <div class="chart-container">
             <h5 class="mb-4"><i class="fas fa-chart-line me-2"></i>Growth Progress</h5>
-            <canvas id="growthChart"></canvas>
-        </div>
+        <canvas id="growthChart"></canvas>
+    </div>
 
-        <!-- Children Overview -->
-        <div class="row">
-            <div class="col-12">
-                <h5 class="section-title">Your Children</h5>
-            </div>
-            
-            {% if children %}
-                {% for child in children %}
-                <div class="col-lg-6">
-                    <div class="child-card">
-                        <div class="d-flex align-items-center">
-                            <img src="../images/child-{{ loop.index }}.jpg" alt="{{ child.name }}" class="child-avatar">
-                            <div class="child-info">
-                                <h5 class="child-name">{{ child.name }}</h5>
-                                <p class="child-age mb-0">Age: {{ child.age }} years</p>
-                                
-                                <div class="child-stats">
-                                    <div class="child-stat">
-                                        <div class="stat-value">{{ child.height }} cm</div>
-                                        <div class="stat-label">Height</div>
-                                    </div>
-                                    <div class="child-stat">
-                                        <div class="stat-value">{{ child.weight }} kg</div>
-                                        <div class="stat-label">Weight</div>
-                                    </div>
-                                    <div class="child-stat">
-                                        <div class="stat-value">{{ child.milestone }}</div>
-                                        <div class="stat-label">Milestone</div>
-                                    </div>
-                                </div>
-                            </div>
+       <!-- Children Overview -->
+<div class="row">
+    <div class="col-12">
+        <h5 class="section-title">Your Children</h5>
+    </div>
+
+    {% if children %}
+        {% for child in children %}
+        <div class="col-lg-6 mb-4">
+            <div class="child-card d-flex align-items-center">
+                <img src="{{ url_for('static', filename='images/child-default.jpg') }}" alt="{{ child.name }}" class="child-avatar">
+                <div class="child-info ms-3 w-100">
+                    <h5 class="child-name">{{ child.name }}</h5>
+                    <p class="child-age mb-0">Age: {{ child.age }} years</p>
+
+                    <div class="child-stats mt-2 d-flex justify-content-between">
+                        <div class="child-stat">
+                            <div class="stat-value">{{ child.height }} cm</div>
+                            <div class="stat-label">Height</div>
                         </div>
-                        
-                        <div class="d-flex justify-content-end mt-3">
-                            <a href="{{ url_for('edit_child', child_id=child.id) }}" class="btn btn-sm btn-outline-primary me-2">
-                                <i class="fas fa-edit"></i> Edit
-                            </a>
-                            <a href="{{ url_for('delete_child', child_id=child.id) }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')">
-                                <i class="fas fa-trash-alt"></i> Delete
-                            </a>
+                        <div class="child-stat">
+                            <div class="stat-value">{{ child.weight }} kg</div>
+                            <div class="stat-label">Weight</div>
+                        </div>
+                        <div class="child-stat">
+                            <div class="stat-value">{{ child.milestone }}</div>
+                            <div class="stat-label">Milestone</div>
                         </div>
                     </div>
+
+                    <div class="d-flex justify-content-end mt-3">
+                        <a href="{{ url_for('edit_child', child_id=child.id) }}" class="btn btn-sm btn-outline-primary me-2">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <a href="{{ url_for('delete_child', child_id=child.id) }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')">
+                            <i class="fas fa-trash-alt"></i> Delete
+                        </a>
+                    </div>
                 </div>
-                {% endfor %}
-            {% else %}
-            <div class="col-12 text-center py-4">
-                <img src="../images/no-children.png" alt="No children" class="img-fluid mb-3" style="max-height: 200px;">
-                <h5>No children added yet</h5>
-                <p class="text-muted">Get started by adding your first child</p>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addChildModal">
-                    <i class="fas fa-plus-circle"></i> Add Child
-                </button>
             </div>
-            {% endif %}
         </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-12 text-center py-4">
+            <img src="{{ url_for('static', filename='images/no-children.png') }}" alt="No children" class="img-fluid mb-3" style="max-height: 200px;">
+            <h5>No children added yet</h5>
+            <p class="text-muted">Click the button below to add your first child.</p>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addChildModal">
+                <i class="fas fa-plus-circle"></i> Add Child
+            </button>
+        </div>
+    {% endif %}
+</div>
+
+            
 
         <!-- Quick Features -->
         <div class="features-section">
@@ -502,50 +520,47 @@
     </footer>
 
     <!-- Add Child Modal -->
-    <div class="modal fade" id="addChildModal" tabindex="-1" aria-labelledby="addChildModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addChildModalLabel">Add New Child</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form action="{{ url_for('add_child') }}" method="POST" enctype="multipart/form-data">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="childName" class="form-label">Full Name</label>
-                            <input type="text" class="form-control" id="childName" name="name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="childAge" class="form-label">Age (years)</label>
-                            <input type="number" class="form-control" id="childAge" name="age" min="0" max="18" required>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="childHeight" class="form-label">Height (cm)</label>
-                                <input type="number" class="form-control" id="childHeight" name="height" step="0.1" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="childWeight" class="form-label">Weight (kg)</label>
-                                <input type="number" class="form-control" id="childWeight" name="weight" step="0.1" required>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="childMilestone" class="form-label">Current Milestone</label>
-                            <input type="text" class="form-control" id="childMilestone" name="milestone">
-                        </div>
-                        <div class="mb-3">
-                            <label for="childPhoto" class="form-label">Child's Photo</label>
-                            <input type="file" class="form-control" id="childPhoto" name="photo" accept="image/*">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Add Child</button>
-                    </div>
-                </form>
-            </div>
+    <div class="modal-body">
+        <div class="mb-3">
+          {{ form.name.label(class="form-label") }}
+          {{ form.name(class="form-control", id="childName") }}
         </div>
-    </div>
+  
+        <div class="mb-3">
+          {{ form.age.label(class="form-label") }}
+          {{ form.age(class="form-control", id="childAge") }}
+        </div>
+  
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            {{ form.height.label(class="form-label") }}
+            {{ form.height(class="form-control", id="childHeight") }}
+          </div>
+          <div class="col-md-6 mb-3">
+            {{ form.weight.label(class="form-label") }}
+            {{ form.weight(class="form-control", id="childWeight") }}
+          </div>
+        </div>
+  
+        <div class="mb-3">
+          {{ form.milestone.label(class="form-label") }}
+          {{ form.milestone(class="form-control", id="childMilestone") }}
+        </div>
+  
+        {# If you want to include photo support later, add it here with another form field #}
+        {# <div class="mb-3">
+          <label for="childPhoto" class="form-label">Child's Photo</label>
+          <input type="file" class="form-control" id="childPhoto" name="photo" accept="image/*">
+        </div> #}
+      </div>
+  
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        {{ form.submit(class="btn btn-primary") }}
+      </div>
+    </form>
+  </div>
+  <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addChildModal"> <i class="fas fa-plus-circle"></i> Add Child </button>  
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>

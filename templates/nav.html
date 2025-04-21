@@ -1,0 +1,18 @@
+<!-- templates/navbar.html -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand" href="/">UpTrack</a>
+        <div class="collapse navbar-collapse">
+            <div class="navbar-nav">
+                <a class="nav-link" href="/">Home</a>
+                {% if 'user_id' in session %}
+                    <a class="nav-link" href="/dashboard">Dashboard</a>
+                    <a class="nav-link" href="/logout">Logout</a>
+                {% else %}
+                    <a class="nav-link" href="/login">Login</a>
+                    <a class="nav-link" href="/signup">Signup</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>

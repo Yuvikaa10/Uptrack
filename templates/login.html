@@ -4,15 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | UpTrack</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <form method="POST" action="{{ url_for('login') }}">
-      
 
-    </form>
-    
     <style>
-        :root {
+          :root {
             --primary-blue: #2563eb;
             --dark-blue: #1e40af;
             --accent-orange: #f59e0b;
@@ -334,132 +331,78 @@
     </style>
 </head>
 <body>
-    
 
-    <!-- Left Side with Background Image and Features -->
-    <div class="login-hero">
-        <div class="login-hero-content">
-            <h1>Welcome Back to UpTrack</h1>
-            <p>Your complete child safety and development tracking solution</p>
-            
-            <ul class="hero-features list-unstyled">
-                <li><i class="fas fa-check-circle"></i> Real-time location tracking</li>
-                <li><i class="fas fa-check-circle"></i> Health and growth monitoring</li>
-                <li><i class="fas fa-check-circle"></i> Developmental milestone alerts</li>
-                <li><i class="fas fa-check-circle"></i> Emergency notifications</li>
-            </ul>
-        </div>
+<!-- Left Side with Background Image -->
+<div class="login-hero">
+    <div class="login-hero-content">
+        <h1>Welcome Back to UpTrack</h1>
+        <p>Your complete child safety and development tracking solution</p>
+        
+        <ul class="hero-features list-unstyled">
+            <li><i class="fas fa-check-circle"></i> Real-time location tracking</li>
+            <li><i class="fas fa-check-circle"></i> Health and growth monitoring</li>
+            <li><i class="fas fa-check-circle"></i> Developmental milestone alerts</li>
+            <li><i class="fas fa-check-circle"></i> Emergency notifications</li>
+        </ul>
     </div>
-    
-    <!-- Right Side - Login Form Container -->
-    <div class="login-container">
-        <div class="login-header">
-            <h2><i class="fas fa-child"></i>UpTrack</h2>
-            <p>Sign in to access your dashboard</p>
-        </div>
-        
-        <!-- Social Login Options -->
-        <div class="social-login">
-            <button class="social-btn google">
-                <i class="fab fa-google"></i>
-            </button>
-            <button class="social-btn facebook">
-                <i class="fab fa-facebook-f"></i>
-            </button>
-            <button class="social-btn apple">
-                <i class="fab fa-apple"></i>
-            </button>
-        </div>
-        
-        <div class="divider">or continue with email</div>
-        
-        <!-- Login Form -->
-        <form id="login-form">
-            <div class="mb-3">
-                <div class="input-group">
-                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                    <input type="email" class="form-control" id="login-email" placeholder="Email Address" required>
-                </div>
-            </div>
-            <div class="mb-3">
-                <div class="input-group">
-                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                    <input type="password" class="form-control" id="login-password" placeholder="Password" required>
-                </div>
-            </div>
-            <div class="d-flex justify-content-between mb-4">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="remember-me">
-                    <label class="form-check-label" for="remember-me">Remember me</label>
-                </div>
-                <a href="#" onclick="showResetPassword()" class="text-decoration-none">Forgot password?</a>
-            </div>
-            <button type="submit" class="btn btn-login w-100 mb-3">
-                <i class="fas fa-sign-in-alt me-2"></i> Login
-            </button>
-        </form>
-        
-        <div class="links-container">
-            Don't have an account? <a href="signup.html">Sign up</a>
-        </div>
-        
-        <!-- Reset Password Form (Hidden by default) -->
-        <div id="reset-password" class="reset-password">
-            <div class="login-header">
-                <h2>Reset Password</h2>
-                <p>Enter your email to receive a reset link</p>
-            </div>
-            <form>
-                <div class="mb-3">
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                        <input type="email" class="form-control" id="reset-email" placeholder="Your Email Address" required>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-login w-100 mb-3">
-                    <i class="fas fa-paper-plane me-2"></i> Send Reset Link
-                </button>
-            </form>
-            <div class="links-container">
-                <a href="#" onclick="showLoginForm()"><i class="fas fa-arrow-left me-2"></i>Back to Login</a>
-            </div>
-        </div>
+</div>
+
+<!-- Right Side - Login Form -->
+<div class="login-container">
+    <div class="login-header">
+        <h2><i class="fas fa-child"></i>UpTrack</h2>
+        <p>Sign in to access your dashboard</p>
     </div>
 
-    <script>
-        function showResetPassword() {
-            document.getElementById('login-form').style.display = 'none';
-            document.querySelector('.social-login').style.display = 'none';
-            document.querySelector('.divider').style.display = 'none';
-            document.querySelector('.links-container').style.display = 'none';
-            document.getElementById('reset-password').style.display = 'block';
-            return false;
-        }
-        
-        function showLoginForm() {
-            document.getElementById('login-form').style.display = 'block';
-            document.querySelector('.social-login').style.display = 'flex';
-            document.querySelector('.divider').style.display = 'flex';
-            document.querySelector('.links-container').style.display = 'block';
-            document.getElementById('reset-password').style.display = 'none';
-            return false;
-        }
-        
-        // Form submission handling
-        document.getElementById('login-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            // Add your login logic here
-            console.log('Login submitted');
-        });
-        
-        document.getElementById('reset-password').querySelector('form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            // Add your password reset logic here
-            alert('Password reset link has been sent to your email');
-            showLoginForm();
-        });
-    </script>
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
 
-    
+    <!-- Social Login -->
+    <div class="social-login">
+        <button class="social-btn google"><i class="fab fa-google"></i></button>
+        <button class="social-btn facebook"><i class="fab fa-facebook-f"></i></button>
+        <button class="social-btn apple"><i class="fab fa-apple"></i></button>
+    </div>
+
+    <div class="divider">or continue with email</div>
+
+    <!-- Login Form -->
+    <form method="POST" action="{{ url_for('login') }}">
+        {{ form.hidden_tag() }}
+
+        <div class="mb-3">
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                {{ form.email(class="form-control", placeholder="Email Address") }}
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                {{ form.password(class="form-control", placeholder="Password") }}
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-login w-100 mb-3">
+            <i class="fas fa-sign-in-alt me-2"></i> Login
+        </button>
+    </form>
+
+    <div class="links-container">
+        Don't have an account? <a href="{{ url_for('signup') }}">Sign up</a>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

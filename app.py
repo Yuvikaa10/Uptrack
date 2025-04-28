@@ -75,8 +75,12 @@ from flask import render_template, redirect, url_for, request
 from flask_login import login_user
 from werkzeug.security import generate_password_hash
 
+# ---------------------- SIGNUP ----------------------
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
+    if "user_id" in session:
+        return redirect(url_for("dashboard"))  # Already logged in? Redirect
+
     if request.method == "POST":
         username = request.form['username']
         email = request.form['email']
@@ -85,50 +89,55 @@ def signup():
         # Check if the email already exists
         existing_user = User.query.filter_by(email=email).first()
         if existing_user:
-            flash("This email is already registered. Please use a different email.", "error")
-            return redirect(url_for('signup'))
+            flash("This email is already registered. Please log in.", "warning")
+            return redirect(url_for('login'))
 
-        # Hash the password before storing it
+        # Hash the password before storing
         hashed_password = generate_password_hash(password)
 
-        # Create a new user and add to the database
+        # Create new user
         new_user = User(username=username, email=email, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
 
-        flash("Registration successful. Please log in.", "success")
+        flash("Registration successful! Please login.", "success")
         return redirect(url_for('login'))
 
     return render_template('signup.html')
 
+
 from flask_login import login_user
 
-@app.route('/login', methods=['GET', 'POST'])
+# ---------------------- LOGIN ----------------------
+@app.route("/login", methods=["GET", "POST"])
 def login():
+    if "user_id" in session:
+        return redirect(url_for("dashboard"))  # Already logged in? Redirect
+
     form = LoginForm()
     if form.validate_on_submit():
-        print("Form submitted successfully!")
         user = User.query.filter_by(email=form.email.data).first()
         if user and check_password_hash(user.password, form.password.data):
-            login_user(user)
-            flash('Login Successful!', 'success')
-            return redirect(url_for('dashboard'))
+            session['user_id'] = user.id
+            session['username'] = user.username
+            flash("Login successful!", "success")
+            return redirect(url_for("dashboard"))
         else:
-            print("Invalid login attempt.")
-            flash('Invalid email or password', 'danger')
-    else:
-        print("Form not validated or GET request.")
-    
-    return render_template('login.html', form=form)
+            flash("Invalid email or password", "danger")
+
+    return render_template("login.html", form=form)
 
 
+
+# ---------------------- LOGOUT ----------------------
 @app.route("/logout")
 def logout():
     session.clear()
     flash("You have been logged out.", "info")
     return redirect(url_for("login"))
 
-#dashboard
+
+#------------------------dashboard-------------------------
 
 @app.route("/dashboard", methods=["GET", "POST"])
 def dashboard():

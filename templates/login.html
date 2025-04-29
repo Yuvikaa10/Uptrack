@@ -331,7 +331,29 @@
     </style>
 </head>
 <body>
-
+    
+    >
+      
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+              {% if session.get('user_id') %}
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('profile') }}">Profile</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('health') }}">Health</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('development') }}">Development</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('safety') }}">Safety</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Logout</a></li>
+              {% else %}
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Login</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('signup') }}">Sign Up</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('features') }}">Features</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('about') }}">About</a></li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </nav>
+      
 <!-- Left Side with Background Image -->
 <div class="login-hero">
     <div class="login-hero-content">

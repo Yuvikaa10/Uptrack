@@ -1,37 +1,27 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
-from flask_wtf import FlaskForm 
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
+from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, IntegerField, FloatField
 from wtforms.validators import InputRequired, Length, Email, EqualTo, NumberRange
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import LoginManager
 
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
-
-app = Flask(__name__)  # Initialize Flask application
-
-# Secret key for session management (used for login sessions)
-app.config['SECRET_KEY'] = 'your_secret_key'  # Replace with a strong secret key
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'  # Or your database URI
-db = SQLAlchemy(app)
-
-login_manager = LoginManager(app)  # Initialize Flask-Login
-login_manager.login_view = 'login'  # Redirects to the login page if user is not logged in
-
-# Add your other configurations, routes, and model definitions here
-
-
-import os
+# -------------------------------------------
+# App Configurations
+# -------------------------------------------
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key_here'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///uptrack.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'  # redirects if user not logged in
 
-class User(db.Model):
+# -------------------------------------------
+# Models
+# -------------------------------------------
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), nullable=False)
     email = db.Column(db.String(150), nullable=False, unique=True)
@@ -47,6 +37,9 @@ class ChildData(db.Model):
     milestone = db.Column(db.String(200))
     user = db.relationship('User', backref=db.backref('children', lazy=True))
 
+# -------------------------------------------
+# Forms
+# -------------------------------------------
 class SignupForm(FlaskForm):
     username = StringField('Username', validators=[InputRequired(), Length(min=4, max=150)])
     email = StringField('Email', validators=[InputRequired(), Email()])
@@ -67,120 +60,92 @@ class ChildForm(FlaskForm):
     milestone = StringField('Recent Milestone')
     submit = SubmitField('Add Child')
 
+# -------------------------------------------
+# Login Manager
+# -------------------------------------------
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+# -------------------------------------------
+# Routes
+# -------------------------------------------
 @app.route("/")
-def home():
-    return render_template("index.html")
+def index():
+    return render_template("index.html")  # home page (accessible without login)
 
-from flask import render_template, redirect, url_for, request
-from flask_login import login_user
-from werkzeug.security import generate_password_hash
-
-# ---------------------- SIGNUP ----------------------
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
-    if "user_id" in session:
-        return redirect(url_for("dashboard"))  # Already logged in? Redirect
-
-    if request.method == "POST":
-        username = request.form['username']
-        email = request.form['email']
-        password = request.form['password']
-
-        # Check if the email already exists
-        existing_user = User.query.filter_by(email=email).first()
+    form = SignupForm()
+    if form.validate_on_submit():
+        existing_user = User.query.filter_by(email=form.email.data).first()
         if existing_user:
-            flash("This email is already registered. Please log in.", "warning")
+            flash("This email is already registered. Please login.", "warning")
             return redirect(url_for('login'))
 
-        # Hash the password before storing
-        hashed_password = generate_password_hash(password)
-
-        # Create new user
-        new_user = User(username=username, email=email, password=hashed_password)
+        hashed_password = generate_password_hash(form.password.data)
+        new_user = User(username=form.username.data, email=form.email.data, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
 
         flash("Registration successful! Please login.", "success")
         return redirect(url_for('login'))
+    return render_template('signup.html', form=form)
 
-    return render_template('signup.html')
-
-
-from flask_login import login_user
-
-# ---------------------- LOGIN ----------------------
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    if "user_id" in session:
-        return redirect(url_for("dashboard"))  # Already logged in? Redirect
-
+    if current_user.is_authenticated:
+        return redirect(url_for('dashboard'))
+    
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user and check_password_hash(user.password, form.password.data):
-            session['user_id'] = user.id
-            session['username'] = user.username
+            login_user(user)
             flash("Login successful!", "success")
-            return redirect(url_for("dashboard"))
+            return redirect(url_for('dashboard'))
         else:
             flash("Invalid email or password", "danger")
-
     return render_template("login.html", form=form)
 
-
-
-# ---------------------- LOGOUT ----------------------
 @app.route("/logout")
+@login_required
 def logout():
-    session.clear()
+    logout_user()
     flash("You have been logged out.", "info")
     return redirect(url_for("login"))
 
-
-#------------------------dashboard-------------------------
-
 @app.route("/dashboard", methods=["GET", "POST"])
+@login_required
 def dashboard():
-    # Check if user is logged in
-    if "user_id" not in session:
-        flash("Please log in to view the dashboard.", "warning")
-        return redirect(url_for("login"))
-
     form = ChildForm()
 
     if form.validate_on_submit():
         new_child = ChildData(
+            user_id=current_user.id,
             name=form.name.data,
             age=form.age.data,
             height=form.height.data,
             weight=form.weight.data,
-            milestone=form.milestone.data,
-            user_id=session["user_id"]
+            milestone=form.milestone.data
         )
         db.session.add(new_child)
         db.session.commit()
         flash("Child added successfully!", "success")
         return redirect(url_for("dashboard"))
 
-    children = ChildData.query.filter_by(user_id=session["user_id"]).all()
+    children = ChildData.query.filter_by(user_id=current_user.id).all()
 
-    # UNESCO comparison logic
     def get_height_status(age, height):
-        if age <= 1 and height >= 75:
-            return "On Track"
-        elif age == 2 and height >= 85:
-            return "On Track"
-        elif age == 3 and height >= 95:
-            return "On Track"
+        if age <= 1 and height >= 75: return "On Track"
+        elif age == 2 and height >= 85: return "On Track"
+        elif age == 3 and height >= 95: return "On Track"
         return "Needs Attention"
 
     def get_weight_status(age, weight):
-        if age <= 1 and weight >= 10:
-            return "On Track"
-        elif age == 2 and weight >= 12:
-            return "On Track"
-        elif age == 3 and weight >= 14:
-            return "On Track"
+        if age <= 1 and weight >= 10: return "On Track"
+        elif age == 2 and weight >= 12: return "On Track"
+        elif age == 3 and weight >= 14: return "On Track"
         return "Needs Attention"
 
     for child in children:
@@ -189,42 +154,13 @@ def dashboard():
 
     return render_template("dashboard.html", children=children, form=form)
 
-
-# Update add_child 
-from werkzeug.utils import secure_filename
-
-@app.route("/add_child", methods=["POST"])
-def add_child():
-    if "user_id" not in session:
-        return redirect(url_for("login"))
-
-    name = request.form["name"]
-    age = int(request.form["age"])
-    height = float(request.form["height"])
-    weight = float(request.form["weight"])
-    milestone = request.form.get("milestone", "")
-    
-    new_child = ChildData(
-        user_id=session["user_id"],
-        name=name,
-        age=age,
-        height=height,
-        weight=weight,
-        milestone=milestone
-    )
-    db.session.add(new_child)
-    db.session.commit()
-
-    flash("Child added successfully!", "success")
-    return redirect(url_for("dashboard"))
-
-#edit child
-
 @app.route("/edit_child/<int:child_id>", methods=["GET", "POST"])
+@login_required
 def edit_child(child_id):
     child = ChildData.query.get_or_404(child_id)
-    if child.user_id != session["user_id"]:
+    if child.user_id != current_user.id:
         return "Unauthorized", 403
+
     if request.method == 'POST':
         child.name = request.form["name"]
         child.age = request.form["age"]
@@ -234,37 +170,46 @@ def edit_child(child_id):
         db.session.commit()
         flash("Child updated successfully!", "info")
         return redirect(url_for("dashboard"))
+
     return render_template("edit_child.html", child=child)
 
 @app.route("/delete_child/<int:child_id>")
+@login_required
 def delete_child(child_id):
     child = ChildData.query.get_or_404(child_id)
-    if child.user_id != session["user_id"]:
+    if child.user_id != current_user.id:
         return "Unauthorized", 403
     db.session.delete(child)
     db.session.commit()
     flash("Child deleted successfully!", "warning")
     return redirect(url_for("dashboard"))
 
+# -------------------------------------------
+# Pages accessible after login
+# -------------------------------------------
 @app.route("/development")
+@login_required
 def development():
     return render_template("development.html")
 
 @app.route("/health")
+@login_required
 def health():
     return render_template("health.html")
 
 @app.route("/profile")
+@login_required
 def profile():
-    if "user_id" not in session:
-        return redirect(url_for("login"))
     return render_template("profile.html")
 
-
 @app.route("/safety")
+@login_required
 def safety():
     return render_template("safety.html")
 
+# -------------------------------------------
+# Pages accessible without login
+# -------------------------------------------
 @app.route("/features")
 def features():
     return render_template("features.html")
@@ -273,10 +218,8 @@ def features():
 def about():
     return render_template("about.html")
 
-@app.route('/home')
-def home_page():
-    return render_template("home.html")
-
-
+# -------------------------------------------
+# Run the app
+# -------------------------------------------
 if __name__ == "__main__":
     app.run(debug=True)

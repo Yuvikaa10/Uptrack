@@ -360,35 +360,33 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <a class="navbar-brand" href="index.html">
-                <i class="fas fa-child"></i>
-                UpTrack
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="features.html">Features</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="about.html">About</a>
-                    </li>
-                    
-                </ul>
-                <div class="d-flex">
-                    <a href="login.html" class="btn btn-outline-primary me-2">Login</a>
-                    <a href="signup.html" class="btn btn-primary">Sign Up</a>
-                </div>
-            </div>
+          <a class="navbar-brand" href="{{ url_for('index') }}">UpTrack </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+      
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+              {% if session.get('user_id') %}
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('profile') }}">Profile</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('health') }}">Health</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('development') }}">Development</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('safety') }}">Safety</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Logout</a></li>
+              {% else %}
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Login</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('signup') }}">Sign Up</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('features') }}">Features</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('about') }}">About</a></li>
+              {% endif %}
+            </ul>
+          </div>
         </div>
-    </nav>
+      </nav>
+      
     
     <!-- Hero Section -->
     <section class="features-hero">
@@ -575,7 +573,7 @@
             <h2>Ready to Experience Peace of Mind?</h2>
             <p>Join thousands of parents who trust UpTrack to keep their children safe and healthy</p>
             <div class="cta-buttons">
-                <a href="signup.html" class="btn btn-primary">Start Trial</a>
+                <a href="signup" class="btn btn-primary">Start Trial</a>
                 
             </div>
         </div>
@@ -600,10 +598,10 @@
                 <div class="col-lg-4 mb-4">
                     <h5>Quick Links</h5>
                     <ul class="list-unstyled">
-                        <li><a href="features.html" class="text-white">Features</a></li>
-                        <li><a href="about.html" class="text-white">About Us</a></li>
+                        <li><a href="features" class="text-white">Features</a></li>
+                        <li><a href="about" class="text-white">About Us</a></li>
                         
-                        <li><a href="blog.html" class="text-white">Blog</a></li>
+                        <li><a href="blog" class="text-white">Blog</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-4 mb-4">

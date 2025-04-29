@@ -9,7 +9,7 @@
     <style>
         :root {
             --primary-blue: #2563eb;
-            --dark-blue: #1e40af;
+            --dark-blue: #687ec4;
             --accent-orange: #f59e0b;
             --text-dark: #1e293b;
             --text-light: #f8fafc;
@@ -358,31 +358,33 @@
 <body>
     <!-- Navigation -->
     <header>
-        <nav class="navbar navbar-expand-lg">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-                <a class="navbar-brand" href="#">
-                    <i class="fas fa-child"></i>
-                    UpTrack
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="features.html">Features</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="about.html">About</a>
-                        </li>
-                    </ul>
-                    <div class="nav-buttons">
-                        <a href="login.html" class="btn btn-outline-primary">Login</a>
-                        <a href="signup.html" class="btn btn-primary">Sign Up</a>
-                    </div>
-                </div>
+              <a class="navbar-brand" href="{{ url_for('index') }}"> UpTrack </a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+          
+              <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                  {% if session.get('user_id') %}
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('profile') }}">Profile</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('health') }}">Health</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('development') }}">Development</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('safety') }}">Safety</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Logout</a></li>
+                  {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('signup') }}">Sign Up</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('features') }}">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('about') }}">About</a></li>
+                  {% endif %}
+                </ul>
+              </div>
             </div>
-        </nav>
+          </nav>
+          
     </header>
     
     <!-- Hero Section with Background Image -->
@@ -391,8 +393,8 @@
             <h1>Protect and Nurture Your Child's Growth</h1>
             <p>Advanced monitoring and development tracking for modern parents</p>
             <div class="hero-buttons">
-                <a href="signup.html" class="btn btn-primary">Get Started</a>
-                <a href="features.html" class="btn btn-secondary">Learn More</a>
+                <a href="signup" class="btn btn-primary">Get Started</a>
+                <a href="features" class="btn btn-secondary">Learn More</a>
             </div>
         </div>
     </section>
@@ -535,10 +537,10 @@
                 <div class="col-lg-4 mb-4">
                     <h5>Quick Links</h5>
                     <ul class="list-unstyled">
-                        <li><a href="features.html" class="text-white">Features</a></li>
-                        <li><a href="about.html" class="text-white">About Us</a></li>
-                        <li><a href="login.html" class="text-white">Login</a></li>
-                        <li><a href="signup.html" class="text-white">Sign Up</a></li>
+                        <li><a href="features" class="text-white">Features</a></li>
+                        <li><a href="about" class="text-white">About Us</a></li>
+                        <li><a href="login" class="text-white">Login</a></li>
+                        <li><a href="signup" class="text-white">Sign Up</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-4 mb-4">

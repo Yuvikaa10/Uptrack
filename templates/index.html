@@ -90,7 +90,7 @@
             height: 700px;
             background: 
                 linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-                url('../images/hero-bg.jpg') center/cover no-repeat;
+                url("{{ url_for('static', filename='images/hero-bg.jpg') }}") center/cover no-repeat;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -480,7 +480,7 @@
                     <div class="testimonial-card">
                         <p>"UpTrack has given me peace of mind as a working parent. I can check on my child's location and health stats anytime."</p>
                         <div class="testimonial-author">
-                            <img src="../images/testimonial1.jpg" alt="Sarah J." class="author-img">
+                            <img src="{{ url_for('static', filename='images/testimonial1.jpg') }}" alt="Sarah J." class="author-img">
                             <div>
                                 <strong>Sarah J.</strong>
                                 <div>Mother of 2</div>
@@ -493,7 +493,7 @@
                     <div class="testimonial-card">
                         <p>"The development tracking helped us identify our son's speech delay early. We got him help thanks to UpTrack's alerts."</p>
                         <div class="testimonial-author">
-                            <img src="../images/testimonial2.jpg" alt="David L." class="author-img">
+                            <img src="{{ url_for('static', filename='images/testimonial2.jpg') }}" alt="David L." class="author-img">
                             <div>
                                 <strong>David L.</strong>
                                 <div>Father</div>
@@ -506,7 +506,8 @@
                     <div class="testimonial-card">
                         <p>"As a first-time mom, the milestone suggestions and health tracking have been invaluable resources for me."</p>
                         <div class="testimonial-author">
-                            <img src="../images/testimonial3.jpg" alt="Priya K." class="author-img">
+                            <img src="{{ url_for('static', filename='images/testimonial3.jpg') }}" alt="Priya K." class="author-img">
+                       
                             <div>
                                 <strong>Priya K.</strong>
                                 <div>New Parent</div>

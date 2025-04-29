@@ -44,7 +44,7 @@
         .about-hero {
             
             background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
-                        url('../images/about-hero.jpg') center/cover no-repeat;
+            url("{{ url_for('static', filename='images/about-hero.jpg') }}") center/cover no-repeat;
             height: 400px;
             display: flex;
             align-items: center;
@@ -224,7 +224,7 @@
             </div>
             
             <div class="text-center mt-5">
-                <img src="../images/mission-image.jpg" alt="Parent and child using app" class="img-fluid rounded" style="max-height: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                <img src="{{ url_for('static', filename='images/mission-image.jpg') }}" alt="Parent and child using app" class="img-fluid rounded" style="max-height: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
             </div>
         </div>
     </section>
@@ -284,7 +284,7 @@
             </div>
             
             <div class="text-center mt-5">
-                <img src="../images/family-using-app.jpg" alt="Family using UpTrack" class="img-fluid rounded" style="max-height: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                <img src="{{ url_for('static', filename='images/family-using-app.jpg') }}" alt="Family using UpTrack"  class="img-fluid rounded" style="max-height: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
             </div>
         </div>
     </section>

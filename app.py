@@ -1,11 +1,16 @@
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, IntegerField, FloatField
-from wtforms.validators import InputRequired, Length, Email, EqualTo, NumberRange
+from wtforms import StringField, PasswordField, SubmitField, IntegerField, FloatField 
+from wtforms.validators import InputRequired, Length, Email, EqualTo, NumberRange , DataRequired 
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import session
+from flask_admin import AdminIndexView, expose
+
+
 
 
 # -------------------------------------------
@@ -17,6 +22,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///uptrack.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
+
+
+
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'  # redirects if user not logged in
 
@@ -28,6 +36,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(150), nullable=False)
     email = db.Column(db.String(150), nullable=False, unique=True)
     password = db.Column(db.String(150), nullable=False)
+    is_admin = db.Column(db.Boolean, default=False)  # new field
 
 class ChildData(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -38,6 +47,40 @@ class ChildData(db.Model):
     weight = db.Column(db.Float)
     milestone = db.Column(db.String(200))
     user = db.relationship('User', backref=db.backref('children', lazy=True))
+
+
+class MyAdminIndexView(AdminIndexView):
+    @expose('/')
+    def index(self):
+        return self.render('admin.html')
+    
+admin = Admin(app, name='UpTrack Admin', template_mode='bootstrap4', index_view=MyAdminIndexView())
+
+class UpTrackAdminView(ModelView):
+    def is_accessible(self):
+        return current_user.is_authenticated and current_user.is_admin
+
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('login', next=request.url))
+
+class UserAdmin(UpTrackAdminView):
+    form_args = {
+        'email': {'validators': [Email()]}
+    }
+
+class ChildDataAdmin(UpTrackAdminView):
+    form_args = {
+        'name': {'validators': [InputRequired()]},
+        'age': {'validators': [InputRequired(), NumberRange(min=0, max=18)]},
+        'height': {'validators': []},
+        'weight': {'validators': []},
+        'milestone': {'validators': []},
+        'email': {'validators': [Email()]},
+    }
+
+admin.add_view(UserAdmin(User, db.session))
+admin.add_view(ChildDataAdmin(ChildData, db.session))
+
 
 # -------------------------------------------
 # Forms
@@ -98,10 +141,13 @@ def signup():
 
     return render_template("signup.html", form=form)
 
+
+#------------------login route--------------------#
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('dashboard'))
+        # Already logged in: send to appropriate location
+        return redirect(url_for('admin.index') if current_user.is_admin else url_for('dashboard'))
     
     form = LoginForm()
     if form.validate_on_submit():
@@ -109,10 +155,20 @@ def login():
         if user and check_password_hash(user.password, form.password.data):
             login_user(user)
             flash("Login successful!", "success")
-            return redirect(url_for('dashboard'))
+            
+            # Redirect admin to admin panel
+            next_page = request.args.get("next")
+            if next_page:
+                return redirect(next_page)
+            elif user.is_admin:
+                return redirect(url_for('admin.index'))
+            else:
+                return redirect(url_for('dashboard'))
         else:
             flash("Invalid email or password", "danger")
+    
     return render_template("login.html", form=form)
+#-----------------------------------------------------#
 
 @app.route("/logout")
 @login_required
@@ -218,6 +274,29 @@ def profile():
 @login_required
 def safety():
     return render_template("safety.html")
+
+from flask_login import current_user
+
+@app.route('/add_child', methods=['GET', 'POST'])
+@login_required
+def add_child():
+    form = ChildForm()
+    if form.validate_on_submit():
+        child = ChildData(
+            user_id=current_user.id,  # Assign the logged-in user's ID here
+            name=form.name.data,
+            age=form.age.data,
+            height=form.height.data,
+            weight=form.weight.data,
+            milestone=form.milestone.data,
+            email=current_user.email  # If you want to store email here as well
+        )
+        db.session.add(child)
+        db.session.commit()
+        flash('Child data added successfully', 'success')
+        return redirect(url_for('dashboard'))
+    return render_template('add_child.html', form=form)
+
 
 # -------------------------------------------
 # Pages accessible without login

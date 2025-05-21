@@ -1,0 +1,9 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h2>Welcome to the UpTrack Admin Dashboard</h2>
+        <a class="btn btn-danger mt-3" href="{{ url_for('logout') }}">Logout</a>
+    </div>
+{% endblock %}
+

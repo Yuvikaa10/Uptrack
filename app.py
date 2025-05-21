@@ -5,6 +5,8 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, IntegerField, FloatField
 from wtforms.validators import InputRequired, Length, Email, EqualTo, NumberRange
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask import session
+
 
 # -------------------------------------------
 # App Configurations
@@ -80,17 +82,21 @@ def signup():
     if form.validate_on_submit():
         existing_user = User.query.filter_by(email=form.email.data).first()
         if existing_user:
-            flash("This email is already registered. Please login.", "warning")
-            return redirect(url_for('login'))
+            flash("This email is already registered. Please log in.", "warning")
+            return redirect(url_for("login"))
 
         hashed_password = generate_password_hash(form.password.data)
-        new_user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        new_user = User(
+            username=form.username.data,
+            email=form.email.data,
+            password=hashed_password
+        )
         db.session.add(new_user)
         db.session.commit()
+        flash("Registration successful. Please log in.", "success")
+        return redirect(url_for("login"))
 
-        flash("Registration successful! Please login.", "success")
-        return redirect(url_for('login'))
-    return render_template('signup.html', form=form)
+    return render_template("signup.html", form=form)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -197,10 +203,16 @@ def development():
 def health():
     return render_template("health.html")
 
-@app.route("/profile")
+from flask import render_template
+from flask_login import login_required, current_user
+
+@app.route('/profile')
 @login_required
 def profile():
-    return render_template("profile.html")
+    # current_user is provided by flask_login and represents the logged-in user
+    return render_template("profile.html", user=current_user)
+
+
 
 @app.route("/safety")
 @login_required

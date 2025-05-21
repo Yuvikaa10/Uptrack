@@ -308,32 +308,23 @@
             <p>Get started with your free account</p>
         </div>
         
-        <form method="POST" action="{{ url_for('signup') }}">
-            <div class="form-group">
-                <i class="fas fa-user input-icon"></i>
-                <input type="text" class="form-control" name="username" placeholder="Full Name" required>
-            </div>
-            
-            <div class="form-group">
-                <i class="fas fa-envelope input-icon"></i>
-                <input type="email" class="form-control" name="email" placeholder="Email Address" required>
-            </div>
-            
-            <div class="form-group">
-                <i class="fas fa-lock input-icon"></i>
-                <input type="password" class="form-control" name="password" placeholder="Create Password" required>
-            </div>
-            
-            <button type="submit" class="btn btn-signup">Sign Up</button>
-            
-            <div class="divider">OR</div>
-            
-            <div class="social-login">
-                <a href="#" class="social-btn"><i class="fab fa-google"></i></a>
-                <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="social-btn"><i class="fab fa-apple"></i></a>
-            </div>
-        </form>
+       <form method="POST" action="{{ url_for('signup') }}">
+        {{ form.hidden_tag() }}
+        {{ form.username.label }}  
+         {{ form.username(class="form-control") }}
+
+         {{ form.email.label }}  
+         {{ form.email(class="form-control") }}
+
+       {{ form.password.label }}  
+     {{ form.password(class="form-control") }}
+
+      {{ form.confirm_password.label }}  
+     {{ form.confirm_password(class="form-control") }}
+
+     {{ form.submit(class="btn btn-primary") }}
+</form>
+
         
         <div class="login-link">
             Already have an account? <a href="{{ url_for('login') }}">Log in</a>
